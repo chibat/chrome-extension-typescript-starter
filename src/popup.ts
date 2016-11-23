@@ -11,6 +11,6 @@ document.addEventListener('DOMContentLoaded', function() {
   };
 
   chrome.tabs.query(queryInfo, function(tabs) {
-    renderStatus(tabs[0].url);
+    renderStatus(tabs[0].url + ' ' + moment());
   });
 });

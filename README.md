@@ -1,7 +1,10 @@
 # Chrome Extension TypeScript Starter
 
-Chrome Extension, TypeScript and VS Code
-without webpack.
+Chrome Extension, TypeScript and Visual Studio Code
+
+## require
+
+* node + npm
 
 ## project structure
 
@@ -9,21 +12,30 @@ without webpack.
 * dist/js: Generated JavaScript files
 * dist: Chrome Extension directory
 
-## 1. npm install
+## Setup
 
 ```
 npm install
+npm run webpack
 ```
 
-## 2. import as VS Code project
+## Import as Visual Studio Code project
 
 ...
 
-## 3. build by watch mode
+## Build by watch mode
+
+### terminal
+
+```
+npm run build
+```
+
+### Visual Studio Code
 
 type `Ctrl + B`
 
-## 4. read extension to chrome
+## Read extension to chrome
 
 ...
 

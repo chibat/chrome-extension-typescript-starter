@@ -4,16 +4,17 @@
   "description": "chrome-extension-typescript-starter",
   "main": "index.js",
   "scripts": {
-    "build": "./node_modules/.bin/tsc -w",
-    "test": "node index.js"
+    "build": "./node_modules/.bin/webpack -w"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "typescript": "^2.0.10"
+    "moment": "^2.17.0"
   },
   "devDependencies": {
     "@types/chrome": "0.0.35",
-    "@types/moment": "^2.13.0"
+    "@types/moment": "^2.13.0",
+    "typescript": "^2.0.10",
+    "webpack": "^1.13.3"
   }
 }
