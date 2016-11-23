@@ -2,21 +2,24 @@
 
 Chrome Extension, TypeScript and Visual Studio Code
 
-## require
+## Require
 
-* node + npm
+* [node + npm](https://nodejs.org/) (Current Version)
 
-## project structure
+## Option
+
+* [Visual Studio Code](https://code.visualstudio.com/)
+
+## Project Structure
 
 * src: TypeScript source files
-* dist/js: Generated JavaScript files
 * dist: Chrome Extension directory
+* dist/js: Generated JavaScript files
 
 ## Setup
 
 ```
 npm install
-npm run webpack
 ```
 
 ## Import as Visual Studio Code project
