@@ -11,6 +11,7 @@ document.addEventListener('DOMContentLoaded', function() {
   };
 
   chrome.tabs.query(queryInfo, function(tabs) {
-    renderStatus(tabs[0].url + ' ' + moment());
+    document.getElementById('url').textContent = tabs[0].url;
+    document.getElementById('time').textContent = moment().format('YYYY-MM-DD HH:mm:ss');
   });
 });
