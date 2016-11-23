@@ -1,0 +1,19 @@
+{
+  "name": "chrome-extension-typescript-starter",
+  "version": "1.0.0",
+  "description": "chrome-extension-typescript-starter",
+  "main": "index.js",
+  "scripts": {
+    "build": "./node_modules/.bin/tsc -w",
+    "test": "node index.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "typescript": "^2.0.10"
+  },
+  "devDependencies": {
+    "@types/chrome": "0.0.35",
+    "@types/moment": "^2.13.0"
+  }
+}
