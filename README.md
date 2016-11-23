@@ -36,7 +36,7 @@ npm run build
 
 ### Visual Studio Code
 
-type `Ctrl + B`
+type `Ctrl + Shift + B`
 
 ## Read extension to chrome
 
