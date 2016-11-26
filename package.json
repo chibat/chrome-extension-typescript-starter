@@ -4,7 +4,8 @@
   "description": "chrome-extension-typescript-starter",
   "main": "index.js",
   "scripts": {
-    "build": "./node_modules/.bin/webpack -w"
+    "build": "./node_modules/.bin/webpack",
+    "watch": "./node_modules/.bin/webpack -w"
   },
   "author": "",
   "license": "ISC",
