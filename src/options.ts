@@ -1,16 +1,19 @@
+import * as moment from 'moment';
+import * as $ from 'jquery';
+
 // Saves options to chrome.storage.sync.
 function save_options() {
-  var color = (<HTMLSelectElement>document.getElementById('color')).value;
-  var likesColor = (<HTMLInputElement>document.getElementById('like')).checked;
+  var color = $('#color').val();
+  var likesColor = $('#like').prop('checked');
   chrome.storage.sync.set({
     favoriteColor: color,
     likesColor: likesColor
   }, function() {
     // Update status to let user know options were saved.
-    var status = document.getElementById('status');
-    status.textContent = 'Options saved.';
+    var status = $('#status');
+    status.text('Options saved.');
     setTimeout(function() {
-      status.textContent = '';
+      status.text('');
     }, 750);
   });
 }
@@ -23,11 +26,11 @@ function restore_options() {
     favoriteColor: 'red',
     likesColor: true
   }, function(items: {favoriteColor, likesColor}) {
-    (<HTMLSelectElement>document.getElementById('color')).value = items.favoriteColor;
-    (<HTMLInputElement>document.getElementById('like')).checked = items.likesColor;
+    $('#color').val(items.favoriteColor);
+    $('#like').prop('checked', items.likesColor);
   });
 }
-document.addEventListener('DOMContentLoaded', restore_options);
-document.getElementById('save').addEventListener('click',
-    save_options);
+
+$('#save').click(save_options);
+$(restore_options); // document.addEventListener('DOMContentLoaded', restore_options);
 

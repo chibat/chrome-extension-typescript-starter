@@ -1,13 +1,14 @@
 import * as moment from 'moment';
+import * as $ from 'jquery';
 
-document.addEventListener('DOMContentLoaded', function() {
+$(function() {
   const queryInfo = {
     active: true,
     currentWindow: true
   };
 
   chrome.tabs.query(queryInfo, function(tabs) {
-    document.getElementById('url').textContent = tabs[0].url;
-    document.getElementById('time').textContent = moment().format('YYYY-MM-DD HH:mm:ss');
+    $('#url').text(tabs[0].url);
+    $('#time').text(moment().format('YYYY-MM-DD HH:mm:ss'));
   });
 });
