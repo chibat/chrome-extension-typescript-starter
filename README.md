@@ -10,6 +10,14 @@ Chrome Extension, TypeScript and Visual Studio Code
 
 * [Visual Studio Code](https://code.visualstudio.com/)
 
+## feature
+
+* TypeScript
+* Webpack
+* Moment.js
+* Chrome Storage
+* Chrome Extesion Options Version 2
+
 ## Project Structure
 
 * src: TypeScript source files
