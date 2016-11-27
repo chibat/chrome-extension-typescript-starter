@@ -4,7 +4,6 @@
   "name": "Chrome Extension TypeScript Starter",
   "description": "Chrome Extension, TypeScript, Visual Studio Code",
   "version": "1.0",
-  // "options_page": "options.html",
 
   "options_ui": {
     "page": "options.html",
@@ -16,9 +15,15 @@
     "default_popup": "popup.html"
   },
 
+  "content_scripts": [
+      {
+          "matches": ["<all_urls>"],
+          "js": ["js/vendor.js", "js/content_script.js"]
+      }
+  ],
+
   "permissions": [
-    "activeTab",
     "storage",
-    "https://ajax.googleapis.com/"
+    "<all_urls>"
   ]
 }
