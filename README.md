@@ -10,17 +10,18 @@ Chrome Extension, TypeScript and Visual Studio Code
 
 * [Visual Studio Code](https://code.visualstudio.com/)
 
-## Feature
+## Includes the following
 
 * TypeScript
 * Webpack
 * Moment.js
 * jQuery
-* Chrome Storage
-* Chrome Extesion Options Version 2
-* content script
-* count up badge number
-* background
+* Example Code
+    * Chrome Storage
+    * Options Version 2
+    * content script
+    * count up badge number
+    * background
 
 ## Project Structure
 
@@ -48,9 +49,11 @@ npm run build
 
 ### Visual Studio Code
 
+Run watch mode.
+
 type `Ctrl + Shift + B`
 
 ## Read extension to chrome
 
-...
+Read `dist` directory
 
