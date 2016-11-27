@@ -20,6 +20,7 @@ Chrome Extension, TypeScript and Visual Studio Code
 * Chrome Extesion Options Version 2
 * content script
 * count up badge number
+* background
 
 ## Project Structure
 
