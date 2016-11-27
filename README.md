@@ -18,6 +18,7 @@ Chrome Extension, TypeScript and Visual Studio Code
 * jQuery
 * Chrome Storage
 * Chrome Extesion Options Version 2
+* content script
 * count up badge number
 
 ## Project Structure
