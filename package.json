@@ -11,14 +11,14 @@
   "license": "ISC",
   "dependencies": {
     "jquery": "^3.1.1",
-    "moment": "^2.17.0"
+    "moment": "^2.17.1"
   },
   "devDependencies": {
-    "@types/chrome": "0.0.35",
-    "@types/jquery": "^2.0.34",
+    "@types/chrome": "0.0.41",
+    "@types/jquery": "^2.0.40",
     "@types/moment": "^2.13.0",
-    "ts-loader": "^1.2.2",
-    "typescript": "^2.0.10",
-    "webpack": "^1.13.3"
+    "ts-loader": "^2.0.1",
+    "typescript": "^2.1.5",
+    "webpack": "^2.2.1"
   }
 }
