@@ -2,7 +2,7 @@
 
 Chrome Extension, TypeScript and Visual Studio Code
 
-# Prerequisites
+## Prerequisites
 
 * [node + npm](https://nodejs.org/) (Current Version)
 
