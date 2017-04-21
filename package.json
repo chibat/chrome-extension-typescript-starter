@@ -9,6 +9,10 @@
   },
   "author": "",
   "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/chibat/chrome-extension-typescript-starter.git"
+  },
   "dependencies": {
     "jquery": "^3.1.1",
     "moment": "^2.17.1"
@@ -16,7 +20,6 @@
   "devDependencies": {
     "@types/chrome": "0.0.41",
     "@types/jquery": "^2.0.40",
-    "@types/moment": "^2.13.0",
     "ts-loader": "^2.0.1",
     "typescript": "^2.1.5",
     "webpack": "^2.2.1"
