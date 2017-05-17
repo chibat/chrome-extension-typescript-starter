@@ -53,7 +53,7 @@ Run watch mode.
 
 type `Ctrl + Shift + B`
 
-## Read extension to chrome
+## Load extension to chrome
 
-Read `dist` directory
+Load `dist` directory
 
