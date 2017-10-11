@@ -18,10 +18,10 @@
     "moment": "~2.18.1"
   },
   "devDependencies": {
-    "@types/chrome": "~0.0.47",
-    "@types/jquery": "~3.2.6",
-    "ts-loader": "~2.2.2",
-    "typescript": "~2.4.1",
-    "webpack": "~3.1.0"
+    "@types/chrome": "~0.0.49",
+    "@types/jquery": "~3.2.13",
+    "ts-loader": "~2.3.7",
+    "typescript": "~2.5.3",
+    "webpack": "~3.7.0"
   }
 }
