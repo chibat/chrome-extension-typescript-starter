@@ -8,7 +8,7 @@
     "watch": "./node_modules/.bin/webpack -w"
   },
   "author": "",
-  "license": "ISC",
+  "license": "MIT",
   "repository": {
     "type": "git",
     "url": "https://github.com/chibat/chrome-extension-typescript-starter.git"
