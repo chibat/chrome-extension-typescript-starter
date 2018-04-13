@@ -14,9 +14,9 @@ $(function() {
     $('#time').text(moment().format('YYYY-MM-DD HH:mm:ss'));
   });
 
-  chrome.browserAction.setBadgeText({text: '' + count});
+  chrome.browserAction.setBadgeText({text: count.toString()});
   $('#countUp').click(()=>{
-    chrome.browserAction.setBadgeText({text: '' + count++});
+    chrome.browserAction.setBadgeText({text: (++count).toString()});
   });
 
   $('#changeBackground').click(()=>{
