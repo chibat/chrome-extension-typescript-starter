@@ -41,7 +41,7 @@ npm install
 
 ...
 
-## Build by watch mode
+## Build in watch mode
 
 ### terminal
 
