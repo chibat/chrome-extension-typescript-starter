@@ -41,12 +41,18 @@ npm install
 
 ...
 
+## Build
+
+```
+npm run build
+```
+
 ## Build in watch mode
 
 ### terminal
 
 ```
-npm run build
+npm run watch
 ```
 
 ### Visual Studio Code
