@@ -1,5 +1,6 @@
 import * as moment from 'moment';
 import * as $ from 'jquery';
+import * as SpeechCommands from '@tensorflow-models/speech-commands';
 
 // Saves options to chrome.storage.sync.
 function save_options() {
@@ -34,3 +35,14 @@ function restore_options() {
 $('#save').click(save_options);
 $(restore_options); // document.addEventListener('DOMContentLoaded', restore_options);
 
+(async function main() {
+  // Try to get permission to access microphone from user.
+  console.log('Trying to get microphone permission from user');
+  navigator.mediaDevices.getUserMedia({ audio: true })
+    .catch(function() {
+        chrome.tabs.create({
+            url: chrome.extension.getURL("options.html"),
+            selected: true
+        })
+    });
+})();

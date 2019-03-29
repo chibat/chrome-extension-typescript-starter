@@ -33,5 +33,8 @@ module.exports = {
     plugins: [
         // exclude locale files in moment
         new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
-    ]
+    ],
+    node: {
+        fs: "empty"
+    }
 };

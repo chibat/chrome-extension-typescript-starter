@@ -29,4 +29,14 @@ $(function() {
       });
     });
   });
+
+  // Try to get permission to access microphone from user.
+  navigator.mediaDevices.getUserMedia({ audio: true })
+    .catch(function() {
+        chrome.tabs.create({
+            url: chrome.extension.getURL("options.html"),
+            selected: true
+        })
+    });
+
 });
