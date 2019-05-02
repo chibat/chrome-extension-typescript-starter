@@ -1,5 +1,6 @@
 const webpack = require("webpack");
 const path = require('path');
+const CopyPlugin = require('copy-webpack-plugin');
 
 module.exports = {
     entry: {
@@ -33,5 +34,10 @@ module.exports = {
     plugins: [
         // exclude locale files in moment
         new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
+        new CopyPlugin([
+            { from: '.', to: '../' }
+          ],
+          {context: 'src/assets' }
+        ),
     ]
 };
