@@ -27,7 +27,8 @@ Chrome Extension, TypeScript and Visual Studio Code
 
 ## Project Structure
 
-* src: TypeScript source files
+* src/typescript: TypeScript source files
+* src/assets: static files
 * dist: Chrome Extension directory
 * dist/js: Generated JavaScript files
 
