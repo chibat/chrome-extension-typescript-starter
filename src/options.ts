@@ -1,4 +1,3 @@
-import * as $ from 'jquery';
 
 // Saves options to chrome.storage.sync.
 function save_options() {
