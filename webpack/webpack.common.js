@@ -1,12 +1,14 @@
 const webpack = require("webpack");
 const path = require('path');
+const CopyPlugin = require('copy-webpack-plugin');
+const srcTypescriptDir = '../src/typescript/';
 
 module.exports = {
     entry: {
-        popup: path.join(__dirname, '../src/popup.ts'),
-        options: path.join(__dirname, '../src/options.ts'),
-        background: path.join(__dirname, '../src/background.ts'),
-        content_script: path.join(__dirname, '../src/content_script.ts')
+        popup: path.join(__dirname, srcTypescriptDir + 'popup.ts'),
+        options: path.join(__dirname, srcTypescriptDir + 'options.ts'),
+        background: path.join(__dirname, srcTypescriptDir + 'background.ts'),
+        content_script: path.join(__dirname, srcTypescriptDir + 'content_script.ts')
     },
     output: {
         path: path.join(__dirname, '../dist/js'),
@@ -33,5 +35,10 @@ module.exports = {
     plugins: [
         // exclude locale files in moment
         new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
+        new CopyPlugin([
+            { from: '.', to: '../' }
+          ],
+          {context: 'src/assets' }
+        ),
     ]
 };
