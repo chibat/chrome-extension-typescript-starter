@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "watch": "webpack --config webpack/webpack.dev.js --watch",
-    "build": "webpack --config webpack/webpack.prod.js"
+    "build": "webpack --config webpack/webpack.prod.js",
+    "clean": "rimraf dist"
   },
   "author": "",
   "license": "MIT",
@@ -21,6 +22,7 @@
     "@types/chrome": "~0.0.83",
     "@types/jquery": "~3.3.29",
     "copy-webpack-plugin": "^5.0.3",
+    "rimraf": "^2.6.3",
     "ts-loader": "~5.4.3",
     "typescript": "~3.4.5",
     "webpack": "~4.17.2",
