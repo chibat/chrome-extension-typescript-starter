@@ -1,5 +1,4 @@
 import * as moment from 'moment';
-import * as $ from 'jquery';
 
 let count = 0;
 
