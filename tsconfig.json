@@ -4,7 +4,7 @@
         "target": "es6",
         "noImplicitAny": false,
         "sourceMap": false,
-        "rootDir": "src/typescript",
+        "rootDir": "src",
         "outDir": "dist/js",
         "noEmitOnError": true,
         "typeRoots": [ "node_modules/@types" ]
