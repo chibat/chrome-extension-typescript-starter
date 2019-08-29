@@ -7,5 +7,6 @@ chrome.runtime.onMessage.addListener(function(msg, sender, sendResponse) {
     } else {
         sendResponse('Color message is none.');
     }
+    const a = $.ajax;
 });
 
