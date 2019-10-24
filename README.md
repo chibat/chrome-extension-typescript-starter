@@ -18,6 +18,7 @@ Chrome Extension, TypeScript and Visual Studio Code
 * Webpack
 * Moment.js
 * jQuery
+* Jest
 * Example Code
     * Chrome Storage
     * Options Version 2
@@ -66,3 +67,5 @@ type `Ctrl + Shift + B`
 
 Load `dist` directory
 
+## Test
+`npx jest` or `npm run test`
