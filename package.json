@@ -6,7 +6,8 @@
   "scripts": {
     "watch": "webpack --config webpack/webpack.dev.js --watch",
     "build": "webpack --config webpack/webpack.prod.js",
-    "clean": "rimraf dist"
+    "clean": "rimraf dist",
+    "test": "npx jest"
   },
   "author": "",
   "license": "MIT",
@@ -20,8 +21,11 @@
   },
   "devDependencies": {
     "@types/chrome": "0.0.86",
+    "@types/jest": "^24.0.19",
     "@types/jquery": "^3.3.30",
     "copy-webpack-plugin": "^5.0.3",
+    "jest": "^24.9.0",
+    "ts-jest": "^24.1.0",
     "rimraf": "^2.6.3",
     "ts-loader": "^5.4.5",
     "typescript": "~3.4.5",
