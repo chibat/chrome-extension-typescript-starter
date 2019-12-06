@@ -20,17 +20,17 @@
     "moment": "~2.24.0"
   },
   "devDependencies": {
-    "@types/chrome": "0.0.86",
-    "@types/jest": "^24.0.19",
-    "@types/jquery": "^3.3.30",
-    "copy-webpack-plugin": "^5.0.3",
+    "@types/chrome": "0.0.91",
+    "@types/jest": "^24.0.23",
+    "@types/jquery": "^3.3.31",
+    "copy-webpack-plugin": "^5.0.5",
     "jest": "^24.9.0",
-    "ts-jest": "^24.1.0",
-    "rimraf": "^2.6.3",
-    "ts-loader": "^5.4.5",
-    "typescript": "~3.4.5",
-    "webpack": "~4.17.2",
-    "webpack-cli": "~3.1.0",
-    "webpack-merge": "~4.2.1"
+    "ts-jest": "^24.2.0",
+    "rimraf": "^3.0.0",
+    "ts-loader": "^6.2.1",
+    "typescript": "~3.7.3",
+    "webpack": "~4.41.2",
+    "webpack-cli": "~3.3.10",
+    "webpack-merge": "~4.2.2"
   }
 }
