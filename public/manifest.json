@@ -27,6 +27,7 @@
   },
 
   "permissions": [
+    "tabs",
     "storage",
     "<all_urls>"
   ]
