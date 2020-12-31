@@ -7,7 +7,8 @@
     "build": "webpack --config webpack/webpack.prod.js",
     "clean": "rimraf dist",
     "test": "npx jest",
-    "style": "prettier src/**/*.{ts,tsx}"
+    "style": "prettier src/**/*.{ts,tsx}",
+    "prepare": "./prepare_icons.sh"
   },
   "author": "Lars Melchior",
   "license": "MIT",
