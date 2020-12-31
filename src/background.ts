@@ -1,8 +1,1 @@
-
-function polling() {
-    console.log('polling');
-    setTimeout(polling, 1000 * 30);
-}
-
-polling();
-
+console.log("hello from the background script!")
