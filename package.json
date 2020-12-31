@@ -2,14 +2,14 @@
   "name": "chrome-extension-typescript-starter",
   "version": "1.0.0",
   "description": "chrome-extension-typescript-starter",
-  "main": "index.js",
   "scripts": {
     "watch": "webpack --config webpack/webpack.dev.js --watch",
     "build": "webpack --config webpack/webpack.prod.js",
     "clean": "rimraf dist",
-    "test": "npx jest"
+    "test": "npx jest",
+    "style": "prettier src/**/*.{ts,tsx}"
   },
-  "author": "",
+  "author": "Lars Melchior",
   "license": "MIT",
   "repository": {
     "type": "git",
@@ -17,15 +17,17 @@
   },
   "dependencies": {
     "crx-hotreload": "^1.0.6",
-    "jquery": "^3.5.0",
-    "moment": "~2.24.0"
+    "react": "^17.0.1",
+    "react-dom": "^17.0.1"
   },
   "devDependencies": {
     "@types/chrome": "0.0.100",
     "@types/jest": "^25.1.4",
-    "@types/jquery": "^3.3.33",
+    "@types/react": "^17.0.0",
+    "@types/react-dom": "^17.0.0",
     "copy-webpack-plugin": "^6.1.0",
     "jest": "^25.1.0",
+    "prettier": "^2.2.1",
     "rimraf": "^3.0.2 ",
     "ts-jest": "^25.2.1 ",
     "ts-loader": "^6.2.1",
