@@ -23,7 +23,7 @@
   ],
 
   "background": {
-    "scripts": ["js/vendor.js", "js/background.js"]
+    "scripts": ["js/vendor.js", "js/background.js", "js/hot_reload.js"]
   },
 
   "permissions": [
