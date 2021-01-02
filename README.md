@@ -1,12 +1,12 @@
 &nbsp;
 <p align="center">
-  <img height="250" src="resources/export/icon.svg"/>
+  <img height="250" src="resources/icon.svg"/>
 </p>
 &nbsp;
 
 # Chrome Extension TypeScript Starter
 
-![Build](https://github.com/TheLartians/chrome-extension-typescript-starter/workflows/Build/badge.svg)
+![Build](https://github.com/chibat/chrome-extension-typescript-starter/workflows/Build/badge.svg)
 
 Chrome Extension, TypeScript and Visual Studio Code
 
