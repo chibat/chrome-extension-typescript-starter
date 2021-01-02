@@ -12,7 +12,7 @@ Chrome Extension, TypeScript and Visual Studio Code
 
 ## Prerequisites
 
-* [node + npm](https://nodejs.org/) (Current Version)
+* [node](https://nodejs.org/)+[yarn](https://yarnpkg.com) (Current Versions)
 
 ## Option
 
@@ -42,7 +42,7 @@ Chrome Extension, TypeScript and Visual Studio Code
 ## Setup
 
 ```
-npm install
+yarn
 ```
 
 ## Import as Visual Studio Code project
@@ -52,7 +52,7 @@ npm install
 ## Build
 
 ```
-npm run build
+yarn build
 ```
 
 ## Build in watch mode
@@ -60,7 +60,7 @@ npm run build
 ### terminal
 
 ```
-npm run watch
+yarn watch
 ```
 
 ### Visual Studio Code
@@ -74,4 +74,4 @@ type `Ctrl + Shift + B`
 Load `dist` directory
 
 ## Test
-`npx jest` or `npm run test`
+`npx jest` or `yarn test`
