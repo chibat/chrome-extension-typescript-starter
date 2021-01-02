@@ -1,6 +1,12 @@
+&nbsp;
+<p align="center">
+  <img height="250" src="resources/export/icon.svg"/>
+</p>
+&nbsp;
+
 # Chrome Extension TypeScript Starter
 
-[![Build Status](https://travis-ci.org/chibat/chrome-extension-typescript-starter.svg?branch=master)](https://travis-ci.org/chibat/chrome-extension-typescript-starter)
+![Build](https://github.com/TheLartians/chrome-extension-typescript-starter/workflows/Build/badge.svg)
 
 Chrome Extension, TypeScript and Visual Studio Code
 
