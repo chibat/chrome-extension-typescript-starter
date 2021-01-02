@@ -26,7 +26,7 @@ jobs:
       - name: check types
         run: yarn tsc -p . --noEmit
 
-      - name: check style and linting
+      - name: check style
         run: yarn style --check
 
       - name: build

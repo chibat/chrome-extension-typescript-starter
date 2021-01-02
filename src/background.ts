@@ -1,1 +1,1 @@
-console.log("hello from the background script!")
+console.log("hello from the background script!");
