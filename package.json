@@ -10,7 +10,7 @@
     "style": "prettier \"src/**/*.{ts,tsx}\"",
     "prepare": "./prepare_icons.sh"
   },
-  "author": "Lars Melchior",
+  "author": "",
   "license": "MIT",
   "repository": {
     "type": "git",
