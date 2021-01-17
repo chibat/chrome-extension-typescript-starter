@@ -1,6 +1,6 @@
 # Chrome Extension TypeScript Starter
 
-[![Build Status](https://travis-ci.org/chibat/chrome-extension-typescript-starter.svg?branch=master)](https://travis-ci.org/chibat/chrome-extension-typescript-starter)
+![build](https://github.com/chibat/chrome-extension-typescript-starter/workflows/build/badge.svg)
 
 Chrome Extension, TypeScript and Visual Studio Code
 
