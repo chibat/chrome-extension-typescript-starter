@@ -1,16 +1,15 @@
 const webpack = require("webpack");
 const path = require("path");
 const CopyPlugin = require("copy-webpack-plugin");
-const srcDir = "../src/";
-var glob = require("glob");
+const srcDir = path.join(__dirname, "..", "src");
 
 module.exports = {
-    entry: glob
-        .sync(path.join(__dirname, srcDir + "*.ts"))
-        .reduce(function (obj, el) {
-            obj[path.parse(el).name] = el;
-            return obj;
-        }, {}),
+    entry: {
+      popup: path.join(srcDir, 'popup.tsx'),
+      options: path.join(srcDir, 'options.tsx'),
+      background: path.join(srcDir, 'background.ts'),
+      content_script: path.join(srcDir, 'content_script.tsx'),
+    },
     output: {
         path: path.join(__dirname, "../dist/js"),
         filename: "[name].js",
@@ -34,8 +33,6 @@ module.exports = {
         extensions: [".ts", ".tsx", ".js"],
     },
     plugins: [
-        // exclude locale files in moment
-        new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
         new CopyPlugin({
             patterns: [{ from: ".", to: "../", context: "public" }],
             options: {},
