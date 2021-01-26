@@ -29,7 +29,7 @@ function restore_options() {
       favoriteColor: "red",
       likesColor: true,
     },
-    function (items: { favoriteColor; likesColor }) {
+    function (items: { [key: string]: any; }) {
       $("#color").val(items.favoriteColor);
       $("#like").prop("checked", items.likesColor);
     }

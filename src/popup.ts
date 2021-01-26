@@ -9,7 +9,7 @@ $(function () {
     currentWindow: true,
   };
 
-  chrome.tabs.query(queryInfo, function (tabs) {
+  chrome.tabs.query(queryInfo, function (tabs: any) {
     $("#url").text(tabs[0].url);
     $("#time").text(moment().format("YYYY-MM-DD HH:mm:ss"));
   });
@@ -20,7 +20,7 @@ $(function () {
   });
 
   $("#changeBackground").click(() => {
-    chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
+    chrome.tabs.query({ active: true, currentWindow: true }, function (tabs: any) {
       chrome.tabs.sendMessage(
         tabs[0].id,
         {
