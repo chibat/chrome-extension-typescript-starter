@@ -16,8 +16,7 @@ Chrome Extension, TypeScript and Visual Studio Code
 
 * TypeScript
 * Webpack
-* Moment.js
-* jQuery
+* React
 * Jest
 * Example Code
     * Chrome Storage
