@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "webpack --config webpack/webpack.dev.js --watch",
     "build": "webpack --config webpack/webpack.prod.js",
-    "clean": "rimraf dist",
+    "clean": "rimraf dist/js",
     "test": "jest",
     "lint": "eslint src/**/*.{ts,tsx}  --fix",
     "format": "prettier --write src/**/*.{ts,tsx}"
@@ -24,7 +24,6 @@
     "@types/react-dom": "^17.0.9",
     "@typescript-eslint/eslint-plugin": "^4.28.2",
     "@typescript-eslint/parser": "^4.28.2",
-    "copy-webpack-plugin": "^6.1.0",
     "eslint": "^7.30.0",
     "eslint-config-prettier": "^8.3.0",
     "eslint-plugin-import": "^2.23.4",
