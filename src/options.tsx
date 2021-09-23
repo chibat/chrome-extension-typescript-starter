@@ -2,9 +2,9 @@ import React, { useEffect, useState } from "react";
 import ReactDOM from "react-dom";
 
 const Options = () => {
-  const [color, setColor] = useState<string>();
-  const [status, setStatus] = useState<string>();
-  const [like, setLike] = useState<boolean>();
+  const [color, setColor] = useState<string>("");
+  const [status, setStatus] = useState<string>("");
+  const [like, setLike] = useState<boolean>(false);
 
   useEffect(() => {
     // Restores select box and checkbox state using the preferences
@@ -32,7 +32,7 @@ const Options = () => {
         // Update status to let user know options were saved.
         setStatus("Options saved.");
         const id = setTimeout(() => {
-          setStatus(undefined);
+          setStatus("");
         }, 1000);
         return () => clearTimeout(id);
       }
