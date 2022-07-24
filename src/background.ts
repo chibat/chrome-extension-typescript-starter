@@ -28,7 +28,7 @@ function isNicoTarget(
 function isOpenrecTarget(
   details: chrome.webRequest.WebRequestBodyDetails
 ): boolean {
-  if (details.initiator?.includes("openrec")) {
+  if (details.initiator?.includes("https://www.openrec.tv")) {
     return details.url.includes("playlist.m3u8");
   }
   return false;
