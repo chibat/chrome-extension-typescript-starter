@@ -1,23 +1,18 @@
 {
   "manifest_version": 3,
 
-  "name": "Chrome Extension TypeScript Starter",
-  "description": "Chrome Extension, TypeScript, Visual Studio Code",
-  "version": "1.0",
-
-  "options_ui": {
-    "page": "options.html"
-  },
+  "name": "VideoURL for VRChat",
+  "description": "VideoURL for VRChat",
+  "version": "1.0.0",
 
   "action": {
-    "default_icon": "icon.png",
-    "default_popup": "popup.html"
+    "default_icon": "icon.png"
   },
 
   "content_scripts": [
       {
           "matches": ["<all_urls>"],
-          "js": ["js/vendor.js", "js/content_script.js"]
+          "js": ["js/content_script.js"]
       }
   ],
 
@@ -26,7 +21,10 @@
   },
 
   "permissions": [
-    "storage"
+    "action",
+    "storage",
+    "tabs",
+    "webRequest"
   ],
 
   "host_permissions": [
