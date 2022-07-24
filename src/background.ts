@@ -55,42 +55,31 @@ chrome.action.onClicked.addListener((tab) => {
         return;
       }
 
-      // Youtube
-      if (isYoutube(currentTab)) {
-        sendYoutubeUrlToContent(currentTab);
-        return;
-      }
-
+      let url = "";
       // niconico
-      if (isNiconico(currentTab)) {
+      if (isNiconico(currentTab.url)) {
         chrome.storage.local.get(`videoURL-${currentTab.id}`, (data) => {
-          const url: string = data[`videoURL-${currentTab.id}`];
-
+          url = data[`videoURL-${currentTab.id}`];
           console.log(url, currentTab.id);
-          if (!url) {
-            return;
-          }
-          chrome.tabs.sendMessage(
-            tab.id!,
-            { action: "GetVideoButtonClicked", url: url },
-            () => {}
-          );
+          sendUrlToContent(tab, url);
         });
+      } else {
+        // YouTube ・ Twitch
+        url = formatURL(currentTab.url);
+        sendUrlToContent(tab, url);
       }
     }
   );
 });
 
-function isYoutube(tab: chrome.tabs.Tab): boolean {
-  const { url } = tab;
+function isYoutube(url: string | undefined): boolean {
   if (!url) {
     return false;
   }
   return url.includes("https://www.youtube.com/watch");
 }
 
-function isNiconico(tab: chrome.tabs.Tab): boolean {
-  const { url } = tab;
+function isNiconico(url: string | undefined): boolean {
   if (!url) {
     return false;
   }
@@ -101,17 +90,29 @@ function isNiconico(tab: chrome.tabs.Tab): boolean {
   return search.some((e) => url.includes(e));
 }
 
-function sendYoutubeUrlToContent(tab: chrome.tabs.Tab) {
-  const { url } = tab;
-  if (!(tab && url)) {
+function formatURL(url: string | undefined) {
+  if (!url) {
+    return "";
+  }
+  let formattedURL = url;
+  if (isYoutube(url)) {
+    const params = new URL(url).searchParams;
+    const videoId = params.get("v");
+    formattedURL = `https://youtu.be/${videoId}`;
+  }
+  return formattedURL;
+}
+
+function sendUrlToContent(
+  tab: chrome.tabs.Tab,
+  url: string | undefined | null
+) {
+  if (!(tab.id && url)) {
     return;
   }
-  const params = new URL(url).searchParams;
-  const videoId = params.get("v");
-  const targetUrl = `https://youtu.be/${videoId}`;
   chrome.tabs.sendMessage(
-    tab.id!,
-    { action: "GetVideoButtonClicked", url: targetUrl },
+    tab.id,
+    { action: "GetVideoButtonClicked", url: url },
     () => {}
   );
 }
