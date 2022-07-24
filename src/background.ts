@@ -43,9 +43,7 @@ chrome.tabs.onRemoved.addListener((tabId, removeInfo) => {
         keys.push(`videoURL-${tabs[i].id}`);
       }
     }
-    chrome.storage.local
-      .remove(keys)
-      .then(() => console.log("removed: ", keys));
+    chrome.storage.local.remove(keys);
   });
 });
 
@@ -62,11 +60,11 @@ chrome.action.onClicked.addListener((tab) => {
       }
 
       let url = "";
-      // niconico
+      // niconico ・ OpenRec
       if (isLocalData(currentTab.url)) {
         chrome.storage.local.get(`videoURL-${currentTab.id}`, (data) => {
           url = data[`videoURL-${currentTab.id}`];
-          console.log(url, currentTab.id);
+          console.log(url);
           sendUrlToContent(tab, url);
         });
       } else {
