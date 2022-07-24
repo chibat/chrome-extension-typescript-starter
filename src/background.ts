@@ -1,16 +1,20 @@
 chrome.webRequest.onBeforeRequest.addListener(
   (details) => {
-    if (isSaveTarget(details)) {
-      saveNicoURL(details);
+    if (isNicoTarget(details) || isOpenrecTarget(details)) {
+      saveVideoURL(details);
     }
   },
   {
-    urls: ["https://*.dmc.nico/*"],
+    urls: [
+      "https://*.dmc.nico/*",
+      "https://*.openrec.tv/*",
+      "https://*.cloudfront.net/*",
+    ],
   },
   []
 );
 
-function isSaveTarget(
+function isNicoTarget(
   details: chrome.webRequest.WebRequestBodyDetails
 ): boolean {
   if (!(details.url.includes("dmc.nico") && details.method === "GET")) {
@@ -21,7 +25,13 @@ function isSaveTarget(
   return hlsTarget || htmlTarget;
 }
 
-function saveNicoURL(details: chrome.webRequest.WebRequestBodyDetails) {
+function isOpenrecTarget(
+  details: chrome.webRequest.WebRequestBodyDetails
+): boolean {
+  return details.url.includes("playlist.m3u8");
+}
+
+function saveVideoURL(details: chrome.webRequest.WebRequestBodyDetails) {
   console.log({ [`videoURL-${details.tabId}`]: details.url });
   chrome.storage.local.set({ [`videoURL-${details.tabId}`]: details.url });
 }
@@ -43,7 +53,6 @@ chrome.tabs.onRemoved.addListener((tabId, removeInfo) => {
 });
 
 chrome.action.onClicked.addListener((tab) => {
-  const tabId = tab.id!;
   chrome.tabs.query(
     {
       active: true,
@@ -57,7 +66,7 @@ chrome.action.onClicked.addListener((tab) => {
 
       let url = "";
       // niconico
-      if (isNiconico(currentTab.url)) {
+      if (isLocalData(currentTab.url)) {
         chrome.storage.local.get(`videoURL-${currentTab.id}`, (data) => {
           url = data[`videoURL-${currentTab.id}`];
           console.log(url, currentTab.id);
@@ -79,15 +88,16 @@ function isYoutube(url: string | undefined): boolean {
   return url.includes("https://www.youtube.com/watch");
 }
 
-function isNiconico(url: string | undefined): boolean {
-  if (!url) {
+function isLocalData(tabURL: string | undefined): boolean {
+  if (!tabURL) {
     return false;
   }
   const search = [
     "https://www.nicovideo.jp/watch/",
     "https://live.nicovideo.jp/watch/lv",
+    "https://www.openrec.tv/",
   ];
-  return search.some((e) => url.includes(e));
+  return search.some((e) => tabURL.includes(e));
 }
 
 function formatURL(url: string | undefined) {
