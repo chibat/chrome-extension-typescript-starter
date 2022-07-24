@@ -28,7 +28,10 @@ function isNicoTarget(
 function isOpenrecTarget(
   details: chrome.webRequest.WebRequestBodyDetails
 ): boolean {
-  return details.url.includes("playlist.m3u8");
+  if (details.initiator?.includes("openrec")) {
+    return details.url.includes("playlist.m3u8");
+  }
+  return false;
 }
 
 function saveVideoURL(details: chrome.webRequest.WebRequestBodyDetails) {
