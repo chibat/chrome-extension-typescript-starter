@@ -32,19 +32,16 @@ function isOpenrecTarget(
 }
 
 function saveVideoURL(details: chrome.webRequest.WebRequestBodyDetails) {
-  console.log({ [`videoURL-${details.tabId}`]: details.url });
   chrome.storage.local.set({ [`videoURL-${details.tabId}`]: details.url });
 }
 
 chrome.tabs.onRemoved.addListener((tabId, removeInfo) => {
   chrome.tabs.query({ windowId: removeInfo.windowId }, (tabs) => {
-    let removeTabs = tabs.slice();
     let keys: string[] = [`videoURL-${tabId}`];
     if (removeInfo.isWindowClosing) {
-      keys = removeTabs
-        .map((e) => e.id)
-        .flatMap((e) => e ?? [])
-        .map((e) => `videoURL-${e}`);
+      for (let i = 0; i < tabs.length; i++) {
+        keys.push(`videoURL-${tabs[i].id}`);
+      }
     }
     chrome.storage.local
       .remove(keys)
