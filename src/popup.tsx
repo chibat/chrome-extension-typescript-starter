@@ -32,6 +32,17 @@ const Popup = () => {
     });
   };
 
+  const addLights = () => {
+    chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
+      const tab = tabs[0];
+      if (tab.id) {
+        chrome.tabs.sendMessage(tab.id, { action: 'activateChristmasLights' }, function (response) {
+          console.log(response);
+        });
+      }
+    });
+  };
+
   return (
     <>
       <ul style={{ minWidth: "700px" }}>
@@ -45,6 +56,7 @@ const Popup = () => {
         count up
       </button>
       <button onClick={changeBackground}>change background</button>
+      <button onClick={addLights}>add lights</button>
     </>
   );
 };
