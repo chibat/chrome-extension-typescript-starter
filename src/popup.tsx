@@ -59,6 +59,29 @@ const Popup = () => {
     });
   };
 
+  const addLights = () => {
+    chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
+      const tab = tabs[0];
+      if (tab.id) {
+        chrome.tabs.sendMessage(tab.id, { action: 'activateChristmasLights' }, function (response) {
+          console.log(response);
+        });
+      }
+    });
+  };
+
+  const addBionicReading = () => {
+    chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
+      const tab = tabs[0];
+      if (tab.id) {
+        chrome.tabs.sendMessage(tab.id, { action: 'addBionicReading' }, function (response) {
+          console.log(response);
+        });
+      }
+    });
+  };
+
+
   return (
     <>
       <ul style={{ minWidth: "700px" }}>
@@ -79,6 +102,8 @@ const Popup = () => {
         onChange={handleChange}
       />
       <label htmlFor="lightsEnabledCheckbox">Enable Christmas Lights</label>
+      <button onClick={addLights}>add lights</button>
+      <button onClick={addBionicReading}>add bionic reading</button>
     </>
   );
 };

@@ -1,4 +1,5 @@
 import { toggleChristmasLights } from './christmaslights/christmaslights';
+import { traverseAndConvert } from './bionic/bionic'
 
 chrome.runtime.onMessage.addListener(function (msg: any, sender, sendResponse) {
 
@@ -10,6 +11,9 @@ chrome.runtime.onMessage.addListener(function (msg: any, sender, sendResponse) {
     console.log("Receive color = " + msg.color);
     document.body.style.backgroundColor = msg.color;
     sendResponse("Change color to " + msg.color);
+  } else if (msg.action === 'addBionicReading') {
+    sendResponse("Activated Bionic Reading");
+    traverseAndConvert(document.body);
   } else {
     sendResponse("Unrecognized message.");
   }
