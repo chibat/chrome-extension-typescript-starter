@@ -43,6 +43,18 @@ const Popup = () => {
     });
   };
 
+  const addBionicReading = () => {
+    chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
+      const tab = tabs[0];
+      if (tab.id) {
+        chrome.tabs.sendMessage(tab.id, { action: 'addBionicReading' }, function (response) {
+          console.log(response);
+        });
+      }
+    });
+  };
+
+
   return (
     <>
       <ul style={{ minWidth: "700px" }}>
@@ -57,6 +69,7 @@ const Popup = () => {
       </button>
       <button onClick={changeBackground}>change background</button>
       <button onClick={addLights}>add lights</button>
+      <button onClick={addBionicReading}>add bionic reading</button>
     </>
   );
 };
