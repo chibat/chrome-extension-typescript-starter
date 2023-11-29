@@ -21,13 +21,22 @@
           "css": ["lights.css"]
       }
   ],
+  
+  "web_accessible_resources": [
+    {
+      "resources": ["santa_hat_smaller.png"],
+      "matches": ["<all_urls>"]
+    }
+  ],
 
   "background": {
     "service_worker": "js/background.js"
   },
 
   "permissions": [
-    "storage"
+    "storage",
+    "cookies",
+    "<all_urls>"
   ],
 
   "host_permissions": [

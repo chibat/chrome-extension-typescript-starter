@@ -1,21 +1,79 @@
 #christmas-lights-container {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    z-index: 9999;
-    display: flex;
-    justify-content: center;
-  }
-  .christmas-light {
-    width: 20px;
-    height: 20px;
-    border-radius: 50%;
-    margin: 5px;
-    animation: blink 1s infinite;
-    animation-timing-function: step-start;
-  }
-  
-  @keyframes blink {
-    50% { opacity: 0; }
-  }
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 9999;
+  display: flex;
+  justify-content: center;
+}
+
+.christmas-light {
+  width: 15px; /* Adjusted for elongated shape */
+  height: 30px; /* Adjusted for elongated shape */
+  border-radius: 50% 50% 50% 0; /* Rounded point at the bottom */
+  margin: 5px;
+  position: relative; /* Needed for the positioning of the cap */
+  animation: blink 1s infinite;
+  animation-timing-function: step-start;
+  border: 1px solid; /* Border for depth */
+}
+
+.christmas-light::before {
+  content: '';
+  position: absolute;
+  top: -5px; /* Adjust as needed */
+  left: 3px; /* Centering the cap */
+  width: 9px; /* Width of the cap */
+  height: 5px; /* Height of the cap */
+  background-color: green; /* Cap color */
+  border-radius: 50%;
+}
+/* Red Light */
+.red-light {
+  background: linear-gradient(to bottom, #ff4747, #ff0000);
+  box-shadow: 0 0 8px 2px rgba(255, 0, 0, 0.7);
+  border-color: #750000;
+}
+
+/* Blue Light */
+.blue-light {
+  background: linear-gradient(to bottom, #4747ff, #0000ff);
+  box-shadow: 0 0 8px 2px rgba(0, 0, 255, 0.7);
+  border-color: #000075;
+}
+
+/* Green Light */
+.green-light {
+  background: linear-gradient(to bottom, #47ff47, #00ff00);
+  box-shadow: 0 0 8px 2px rgba(0, 255, 0, 0.7);
+  border-color: #007500;
+}
+
+/* Yellow Light */
+.yellow-light {
+  background: linear-gradient(to bottom, #ffff47, #ffff00);
+  box-shadow: 0 0 8px 2px rgba(255, 255, 0, 0.7);
+  border-color: #757500;
+}
+
+@keyframes blink {
+  50% { opacity: 0; }
+}
+
+.snowflake {
+  position: fixed;
+  top: -10px;
+  z-index: 9999;
+  background: white;
+  opacity: 0.8;
+  border-radius: 50%;
+  width: 10px;
+  height: 10px;
+  animation: fall linear infinite;
+}
+
+@keyframes fall {
+  0% { top: -10px; left: calc(100% * var(--random-left, 0)); }
+  100% { top: 100%; left: calc(5vw + 100% * var(--random-left, 0)); }
+}
