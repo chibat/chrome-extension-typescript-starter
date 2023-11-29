@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { createRoot } from "react-dom/client";
+import "./index.css";
 
 const Popup = () => {
   const [count, setCount] = useState(0);
@@ -8,7 +9,7 @@ const Popup = () => {
 
   useEffect(() => {
     // On component mount, load the saved state
-    chrome.storage.sync.get(['christmasLights'], (result) => {
+    chrome.storage.sync.get(["christmasLights"], (result) => {
       setIsLightsEnabled(result.christmasLights || false);
     });
   }, []);
@@ -25,7 +26,7 @@ const Popup = () => {
       if (tab.id) {
         chrome.tabs.sendMessage(tab.id, {
           type: "christmasLights",
-          enable: newState
+          enable: newState,
         });
       }
     });
@@ -48,7 +49,7 @@ const Popup = () => {
         chrome.tabs.sendMessage(
           tab.id,
           {
-            type: 'changeBackground',
+            type: "changeBackground",
             color: "#555555",
           },
           (msg) => {
@@ -63,9 +64,13 @@ const Popup = () => {
     chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
       const tab = tabs[0];
       if (tab.id) {
-        chrome.tabs.sendMessage(tab.id, { action: 'activateChristmasLights' }, function (response) {
-          console.log(response);
-        });
+        chrome.tabs.sendMessage(
+          tab.id,
+          { action: "activateChristmasLights" },
+          function (response) {
+            console.log(response);
+          }
+        );
       }
     });
   };
@@ -74,16 +79,19 @@ const Popup = () => {
     chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
       const tab = tabs[0];
       if (tab.id) {
-        chrome.tabs.sendMessage(tab.id, { action: 'addBionicReading' }, function (response) {
-          console.log(response);
-        });
+        chrome.tabs.sendMessage(
+          tab.id,
+          { action: "addBionicReading" },
+          function (response) {
+            console.log(response);
+          }
+        );
       }
     });
   };
 
-
   return (
-    <>
+    <div className="bg-gray-100">
       <ul style={{ minWidth: "700px" }}>
         <li>Current URL: {currentURL}</li>
         <li>Current Time: {new Date().toLocaleTimeString()}</li>
@@ -104,7 +112,7 @@ const Popup = () => {
       <label htmlFor="lightsEnabledCheckbox">Enable Christmas Lights</label>
       <button onClick={addLights}>add lights</button>
       <button onClick={addBionicReading}>add bionic reading</button>
-    </>
+    </div>
   );
 };
 
