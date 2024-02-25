@@ -1,14 +1,43 @@
-const webpack = require("webpack");
 const path = require("path");
 const CopyPlugin = require("copy-webpack-plugin");
-const srcDir = path.join(__dirname, "..", "src");
+const fs = require("fs");
+
+/**
+ * @param {string} folder 
+ */
+function GetFilePaths(folder) {
+    const files = fs.readdirSync(folder);
+    let filesRouteObject = {};
+
+    for (const file of files) {
+        if (file.startsWith("__")) continue;
+
+        const fileRoute = `${folder}/${file}`;
+        if (fs.lstatSync(fileRoute).isDirectory()) {
+            filesRouteObject = {
+                ...filesRouteObject,
+                ...GetFilePaths(fileRoute)
+            };
+        } else {
+            //Removing `./src`
+            let fileBuildName = fileRoute.substring(6);
+
+            //Removing extension
+            fileBuildName = fileBuildName.split(".");
+            fileBuildName.pop();
+            fileBuildName = fileBuildName.join(".");
+
+            filesRouteObject[fileBuildName] = fileRoute;
+        }
+    }
+
+    return filesRouteObject;
+}
+
 
 module.exports = {
     entry: {
-      popup: path.join(srcDir, 'popup.tsx'),
-      options: path.join(srcDir, 'options.tsx'),
-      background: path.join(srcDir, 'background.ts'),
-      content_script: path.join(srcDir, 'content_script.tsx'),
+        ...GetFilePaths("./src")
     },
     output: {
         path: path.join(__dirname, "../dist/js"),
@@ -18,7 +47,7 @@ module.exports = {
         splitChunks: {
             name: "vendor",
             chunks(chunk) {
-              return chunk.name !== 'background';
+                return chunk.name !== 'background';
             }
         },
     },
