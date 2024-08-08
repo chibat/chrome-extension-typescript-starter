@@ -1,7 +1,7 @@
 {
-  "name": "chrome-extension-typescript-starter",
+  "name": "github-ui-booster",
   "version": "1.0.0",
-  "description": "chrome-extension-typescript-starter",
+  "description": "Boost your GitHub UI. Works with GitHub Enterprise!",
   "main": "index.js",
   "scripts": {
     "watch": "webpack --config webpack/webpack.dev.js --watch",
@@ -11,10 +11,10 @@
     "style": "prettier --write \"src/**/*.{ts,tsx}\""
   },
   "author": "",
-  "license": "MIT",
+  "license": "ISC",
   "repository": {
     "type": "git",
-    "url": "https://github.com/chibat/chrome-extension-typescript-starter.git"
+    "url": "https://github.com/HansKre/github-ui-booster"
   },
   "dependencies": {
     "react": "^18.2.0",
