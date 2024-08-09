@@ -8,6 +8,7 @@ export const settingsSchema = object({
 });
 
 export type Settings = InferType<typeof settingsSchema>;
+export type SettingName = keyof Settings;
 
 export const INITIAL_VALUES = {
   pat: '',
