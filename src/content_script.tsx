@@ -14,5 +14,5 @@ function handleContent(settings: Settings) {
   const prUiUrl = `${baseUiUrl}/pull`;
 
   if (window.location.href.startsWith(prsUiUrl)) handlePrs(settings);
-  if (window.location.href.startsWith(prUiUrl)) handlePr();
+  if (window.location.href.startsWith(prUiUrl)) handlePr(settings);
 }
