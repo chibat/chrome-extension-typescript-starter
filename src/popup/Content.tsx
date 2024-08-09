@@ -1,6 +1,7 @@
-import { Field, Form, Formik, FormikHelpers } from "formik";
-import React, { useEffect, useRef, useState } from "react";
+import { Field, Form, Formik } from "formik";
+import React, { useEffect, useState } from "react";
 import { Config, configSchema, getConfig } from "../services";
+import styles from "./Content.module.scss";
 
 type FormValues = Config;
 
@@ -36,11 +37,7 @@ export const Content = () => {
 
   return (
     <div
-      style={{
-        minWidth: "450px",
-        minHeight: "560px",
-        backgroundColor: "#fbf9f9",
-      }}
+      className={styles.container}
     >
       <div>
         <h1>Settings</h1>
