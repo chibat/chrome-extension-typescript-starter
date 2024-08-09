@@ -26,10 +26,13 @@ export function getSettings({ onSuccess, onError }: Params) {
   chrome.storage.local
     .get(Object.keys(settingsSchema.fields))
     .then((entries) => {
-      if (Object.keys(entries).length === 0) onSuccess(INITIAL_VALUES);
-      settingsSchema
-        .validate(entries)
-        .then((settings) => onSuccess(settings))
-        .catch(() => onError());
+      if (Object.keys(entries).length === 0) {
+        onSuccess(INITIAL_VALUES);
+      } else {
+        settingsSchema
+          .validate(entries)
+          .then((settings) => onSuccess(settings))
+          .catch(() => onError());
+      }
     });
 }
