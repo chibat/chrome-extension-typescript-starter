@@ -1,20 +1,14 @@
 import { Field, Form, Formik, FormikHelpers } from "formik";
 import React, { useEffect, useRef, useState } from "react";
+import { Config, configSchema, getConfig } from "../services";
 
-type FormValues = {
-  pat: string;
-  org: string;
-  repo: string;
-  ghBaseUrl: string;
-  labelStyling: string;
-};
+type FormValues = Config;
 
 const INITIAL_VALUES = {
   pat: "",
   org: "",
   repo: "",
   ghBaseUrl: "",
-  labelStyling: "",
 };
 
 export const Content = () => {
@@ -23,20 +17,10 @@ export const Content = () => {
     useState<FormValues>(INITIAL_VALUES);
 
   useEffect(() => {
-    chrome.storage.local
-      .get(["pat", "org", "repo", "ghBaseUrl", "labelStyling"])
-      .then((entries) => {
-        initialValuesSet({
-          pat: entries?.pat ?? "",
-          org: entries?.org ?? "",
-          repo: entries?.repo ?? "",
-          ghBaseUrl: entries?.ghBaseUrl ?? "",
-          labelStyling: entries?.labelStyling ?? "",
-        });
-      })
-      .catch(() => {
-        resultSet("Couldn't load from chrome storage");
-      });
+    getConfig({
+      onSuccess: initialValuesSet,
+      onError: () => resultSet("Couldn't load from chrome storage"),
+    });
   }, []);
 
   const handleSubmit = (values: FormValues) => {
@@ -66,30 +50,32 @@ export const Content = () => {
         enableReinitialize
         initialValues={initialValues}
         onSubmit={handleSubmit}
+        validationSchema={configSchema}
       >
-        <Form>
-          <div>
-            <label htmlFor="pat">Personal Access Token</label>
-            <Field id="pat" name="pat" type="text" required />
-          </div>
-          <div>
-            <label htmlFor="org">Organization</label>
-            <Field id="org" name="org" type="text" required />
-          </div>
-          <div>
-            <label htmlFor="repo">Repository</label>
-            <Field id="repo" name="repo" type="text" required />
-          </div>
-          <div>
-            <label htmlFor="ghBaseUrl">GitHub Base URL</label>
-            <Field id="ghBaseUrl" name="ghBaseUrl" type="text" required />
-          </div>
-          <div>
-            <label htmlFor="labelStyling">Label Styling</label>
-            <Field id="labelStyling" name="labelStyling" disabled />
-          </div>
-          <button type="submit">Save</button>
-        </Form>
+        {({ errors, isValid, dirty, isSubmitting }) => (
+          <Form>
+            <div>
+              <label htmlFor="pat">Personal Access Token</label>
+              <Field id="pat" name="pat" type="text" required />
+            </div>
+            <div>
+              <label htmlFor="org">Organization</label>
+              <Field id="org" name="org" type="text" required />
+            </div>
+            <div>
+              <label htmlFor="repo">Repository</label>
+              <Field id="repo" name="repo" type="text" required />
+            </div>
+            <div>
+              <label htmlFor="ghBaseUrl">GitHub Base URL</label>
+              <Field id="ghBaseUrl" name="ghBaseUrl" type="text" required />
+            </div>
+            <button type="submit" disabled={!isValid || !dirty || isSubmitting}>
+              {isSubmitting ? "Submitting..." : "Save"}
+            </button>
+            <div>{JSON.stringify(errors)}</div>
+          </Form>
+        )}
       </Formik>
       <article>{result}</article>
     </div>
