@@ -28,7 +28,7 @@ export const Content = () => {
 
   const handleSubmit = (
     values: FormValues,
-    { setSubmitting }: FormikHelpers<FormValues>
+    { setSubmitting, resetForm }: FormikHelpers<FormValues>
   ) => {
     const promises = Object.entries(values).map(([key, value]) => {
       return chrome.storage.local.set({
@@ -36,7 +36,11 @@ export const Content = () => {
       });
     });
     Promise.all(promises)
-      .then(() => resultSet("Saved successfully"))
+      .then(() => {
+        // reset form-state, e.g. isDirty
+        resetForm({ values });
+        resultSet("Saved successfully");
+      })
       .catch(() => resultSet("Couldn't save"))
       .finally(() => setSubmitting(false));
   };
