@@ -1,17 +1,17 @@
-import { Octokit } from "@octokit/rest";
-import { Config } from "../services";
+import { Octokit } from '@octokit/rest';
+import { Settings } from '../services';
 
-export async function handlePrs(config: Config) {
+export async function handlePrs(settings: Settings) {
   const octokit = new Octokit({
-    auth: config.pat,
-    baseUrl: config.ghBaseUrl,
+    auth: settings.pat,
+    baseUrl: settings.ghBaseUrl,
   });
   try {
     showSpinner();
     const { data } = await octokit.pulls.list({
-      owner: config.org,
-      repo: config.repo,
-      state: "open",
+      owner: settings.org,
+      repo: settings.repo,
+      state: 'open',
       per_page: 100,
       page: 1,
     });
@@ -22,21 +22,21 @@ export async function handlePrs(config: Config) {
       baseRef: pr.base.ref,
     }));
 
-    const prRows = document.querySelectorAll("div[id^=issue_]");
+    const prRows = document.querySelectorAll('div[id^=issue_]');
     prRows.forEach((prRow) => {
-      const prNumber = prRow.id.split("_")[1];
+      const prNumber = prRow.id.split('_')[1];
       const prData = prs.find((pr) => pr.prNumber === parseInt(prNumber));
       if (prData) {
         const text = `${prData.baseRef} <-- ${prData.headRef}`;
-        const spanEl = document.createElement("span");
+        const spanEl = document.createElement('span');
         spanEl.textContent = text;
-        spanEl.classList.add("IssueLabel");
-        spanEl.classList.add("hx_IssueLabel");
+        spanEl.classList.add('IssueLabel');
+        spanEl.classList.add('hx_IssueLabel');
         prRow.children[0].children[2].appendChild(spanEl);
       }
     });
   } catch (err) {
-    alert("Error fetching PR data. Check console");
+    alert('Error fetching PR data. Check console');
     console.error(err);
   } finally {
     hideSpinner();
@@ -44,14 +44,14 @@ export async function handlePrs(config: Config) {
 }
 
 function showSpinner() {
-  let loadingOverlay = document.querySelector(".ghuibooster__overlay");
+  let loadingOverlay = document.querySelector('.ghuibooster__overlay');
   if (loadingOverlay) {
-    loadingOverlay.classList.remove("ghuibooster__hidden");
+    loadingOverlay.classList.remove('ghuibooster__hidden');
     return;
   }
 
-  const style = document.createElement("style");
-  style.type = "text/css";
+  const style = document.createElement('style');
+  style.type = 'text/css';
   style.innerHTML = `
     .ghuibooster__overlay {
       position: fixed;
@@ -84,20 +84,20 @@ function showSpinner() {
       100% { transform: rotate(360deg); }
     }
   `;
-  document.getElementsByTagName("head")[0].appendChild(style);
+  document.getElementsByTagName('head')[0].appendChild(style);
 
-  loadingOverlay = document.createElement("div");
-  loadingOverlay.classList.add("ghuibooster__overlay");
+  loadingOverlay = document.createElement('div');
+  loadingOverlay.classList.add('ghuibooster__overlay');
 
-  const loadingSpinner = document.createElement("div");
-  loadingSpinner.classList.add("ghuibooster__spinner");
+  const loadingSpinner = document.createElement('div');
+  loadingSpinner.classList.add('ghuibooster__spinner');
 
   loadingOverlay.appendChild(loadingSpinner);
-  const body = document.querySelector("body");
+  const body = document.querySelector('body');
   body?.appendChild(loadingOverlay);
 }
 
 function hideSpinner() {
-  const loadingOverlay = document.querySelector(".ghuibooster__overlay");
-  loadingOverlay?.classList.add("ghuibooster__hidden");
+  const loadingOverlay = document.querySelector('.ghuibooster__overlay');
+  loadingOverlay?.classList.add('ghuibooster__hidden');
 }

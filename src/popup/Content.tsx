@@ -1,26 +1,26 @@
-import { Form, Formik, FormikHelpers } from "formik";
-import React, { useEffect, useState } from "react";
-import { Config, configSchema, getConfig } from "../services";
-import styles from "./Content.module.scss";
-import { FormField } from "./FormField";
-import { Button } from "./Button";
+import { Form, Formik, FormikHelpers } from 'formik';
+import React, { useEffect, useState } from 'react';
+import { Settings, getSettings, settingsSchema } from '../services';
+import { Button } from './Button';
+import styles from './Content.module.scss';
+import { FormField } from './FormField';
 
-type FormValues = Config;
+type FormValues = Settings;
 
 const INITIAL_VALUES = {
-  pat: "",
-  org: "",
-  repo: "",
-  ghBaseUrl: "https://api.github.com",
+  pat: '',
+  org: '',
+  repo: '',
+  ghBaseUrl: 'https://api.github.com',
 };
 
 export const Content = () => {
-  const [result, resultSet] = useState("");
+  const [result, resultSet] = useState('');
   const [initialValues, initialValuesSet] =
     useState<FormValues>(INITIAL_VALUES);
 
   useEffect(() => {
-    getConfig({
+    getSettings({
       onSuccess: initialValuesSet,
       onError: () => resultSet("Couldn't load from chrome storage"),
     });
@@ -39,7 +39,7 @@ export const Content = () => {
       .then(() => {
         // reset form-state, e.g. isDirty
         resetForm({ values });
-        resultSet("Saved successfully");
+        resultSet('Saved successfully');
       })
       .catch(() => resultSet("Couldn't save"))
       .finally(() => setSubmitting(false));
@@ -56,28 +56,28 @@ export const Content = () => {
           enableReinitialize
           initialValues={initialValues}
           onSubmit={handleSubmit}
-          validationSchema={configSchema}
+          validationSchema={settingsSchema}
         >
           {({ errors, isValid, dirty, isSubmitting }) => (
             <Form className={styles.form}>
               <FormField
-                label="Personal Access Token"
-                name="pat"
+                label='Personal Access Token'
+                name='pat'
                 error={errors.pat}
               />
-              <FormField label="Organization" name="org" error={errors.org} />
-              <FormField label="Repository" name="repo" error={errors.repo} />
+              <FormField label='Organization' name='org' error={errors.org} />
+              <FormField label='Repository' name='repo' error={errors.repo} />
               <FormField
-                label="GitHub Base URL"
-                name="ghBaseUrl"
+                label='GitHub Base URL'
+                name='ghBaseUrl'
                 error={errors.ghBaseUrl}
               />
               <Button
-                type="submit"
+                type='submit'
                 disabled={!isValid || !dirty || isSubmitting}
                 result={isSubmitting ? undefined : result}
               >
-                {isSubmitting ? "Submitting..." : "Save"}
+                {isSubmitting ? 'Submitting...' : 'Save'}
               </Button>
             </Form>
           )}

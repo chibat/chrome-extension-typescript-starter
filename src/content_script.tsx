@@ -1,22 +1,18 @@
-import { handlePr, handlePrs } from "./content";
-import { Config, getConfig } from "./services";
+import { handlePr, handlePrs } from './content';
+import { Settings, getSettings } from './services';
 
-getConfig({
+getSettings({
   onSuccess: handleContent,
   onError: () => alert("Couldn't load from chrome storage"),
 });
 
-function handleContent(config: Config) {
-  const baseUiUrl = `${config.ghBaseUrl.replace("/api/v3", "")}/${config.org}/${
-    config.repo
-  }`;
+function handleContent(settings: Settings) {
+  const baseUiUrl = `${settings.ghBaseUrl.replace('/api/v3', '')}/${
+    settings.org
+  }/${settings.repo}`;
   const prsUiUrl = `${baseUiUrl}/pulls`;
   const prUiUrl = `${baseUiUrl}/pull`;
 
-  if (window.location.href.startsWith(prsUiUrl)) handlePrs(config);
+  if (window.location.href.startsWith(prsUiUrl)) handlePrs(settings);
   if (window.location.href.startsWith(prUiUrl)) handlePr();
 }
-
-
-
-

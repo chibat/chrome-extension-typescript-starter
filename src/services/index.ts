@@ -1,1 +1,1 @@
-export *  from './getConfig'
+export * from './getSettings';
