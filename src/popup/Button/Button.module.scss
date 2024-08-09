@@ -28,8 +28,16 @@
     user-select: none;
     transition-duration: 0.08s;
     fill: rgb(255, 255, 255);
+    border-color: rgba(240, 246, 252, 0.1);
   
-    &:hover {
+    &:hover:not([disabled]) {
       background-color: rgb(46, 160, 67);
+    }
+
+    &[disabled] {
+      background-color: rgb(33, 38, 45);
+      border-color: rgba(240, 246, 252, 0.1);
+      color: rgb(201, 209, 217);
+      cursor: not-allowed;
     }
   }
