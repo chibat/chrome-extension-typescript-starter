@@ -36,45 +36,48 @@ export const Content = () => {
   };
 
   return (
-    <div
-      className={styles.container}
-    >
-      <div>
-        <h1>Settings</h1>
-        <button type="button">Close</button>
+    <section className={styles.wrapper}>
+      <div className={styles.container}>
+        <div>
+          <h1 className={styles.heading}>Settings</h1>
+          <button type="button">Close</button>
+        </div>
+        <Formik
+          enableReinitialize
+          initialValues={initialValues}
+          onSubmit={handleSubmit}
+          validationSchema={configSchema}
+        >
+          {({ errors, isValid, dirty, isSubmitting }) => (
+            <Form>
+              <div>
+                <label className={styles.text} htmlFor="pat">Personal Access Token</label>
+                <Field id="pat" name="pat" type="text" required />
+              </div>
+              <div>
+                <label className={styles.text} htmlFor="org">Organization</label>
+                <Field id="org" name="org" type="text" required />
+              </div>
+              <div>
+                <label className={styles.text} htmlFor="repo">Repository</label>
+                <Field id="repo" name="repo" type="text" required />
+              </div>
+              <div>
+                <label className={styles.text} htmlFor="ghBaseUrl">GitHub Base URL</label>
+                <Field id="ghBaseUrl" name="ghBaseUrl" type="text" required />
+              </div>
+              <button
+                type="submit"
+                disabled={!isValid || !dirty || isSubmitting}
+              >
+                {isSubmitting ? "Submitting..." : "Save"}
+              </button>
+              <div className={styles.text}>{JSON.stringify(errors)}</div>
+            </Form>
+          )}
+        </Formik>
+        <article className={styles.text}>{result}</article>
       </div>
-      <Formik
-        enableReinitialize
-        initialValues={initialValues}
-        onSubmit={handleSubmit}
-        validationSchema={configSchema}
-      >
-        {({ errors, isValid, dirty, isSubmitting }) => (
-          <Form>
-            <div>
-              <label htmlFor="pat">Personal Access Token</label>
-              <Field id="pat" name="pat" type="text" required />
-            </div>
-            <div>
-              <label htmlFor="org">Organization</label>
-              <Field id="org" name="org" type="text" required />
-            </div>
-            <div>
-              <label htmlFor="repo">Repository</label>
-              <Field id="repo" name="repo" type="text" required />
-            </div>
-            <div>
-              <label htmlFor="ghBaseUrl">GitHub Base URL</label>
-              <Field id="ghBaseUrl" name="ghBaseUrl" type="text" required />
-            </div>
-            <button type="submit" disabled={!isValid || !dirty || isSubmitting}>
-              {isSubmitting ? "Submitting..." : "Save"}
-            </button>
-            <div>{JSON.stringify(errors)}</div>
-          </Form>
-        )}
-      </Formik>
-      <article>{result}</article>
-    </div>
+    </section>
   );
 };
