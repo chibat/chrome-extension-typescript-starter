@@ -1,4 +1,4 @@
-import { Form, Formik } from "formik";
+import { Form, Formik, FormikHelpers } from "formik";
 import React, { useEffect, useState } from "react";
 import { Config, configSchema, getConfig } from "../services";
 import styles from "./Content.module.scss";
@@ -26,7 +26,10 @@ export const Content = () => {
     });
   }, []);
 
-  const handleSubmit = (values: FormValues) => {
+  const handleSubmit = (
+    values: FormValues,
+    { setSubmitting }: FormikHelpers<FormValues>
+  ) => {
     const promises = Object.entries(values).map(([key, value]) => {
       return chrome.storage.local.set({
         [key]: value,
@@ -34,7 +37,8 @@ export const Content = () => {
     });
     Promise.all(promises)
       .then(() => resultSet("Saved successfully"))
-      .catch(() => resultSet("Couldn't save"));
+      .catch(() => resultSet("Couldn't save"))
+      .finally(() => setSubmitting(false));
   };
 
   return (
@@ -57,16 +61,8 @@ export const Content = () => {
                 name="pat"
                 error={errors.pat}
               />
-              <FormField
-                label="Organization"
-                name="org"
-                error={errors.org}
-              />
-              <FormField
-                label="Repository"
-                name="repo"
-                error={errors.repo}
-              />
+              <FormField label="Organization" name="org" error={errors.org} />
+              <FormField label="Repository" name="repo" error={errors.repo} />
               <FormField
                 label="GitHub Base URL"
                 name="ghBaseUrl"
@@ -75,13 +71,13 @@ export const Content = () => {
               <Button
                 type="submit"
                 disabled={!isValid || !dirty || isSubmitting}
+                result={isSubmitting ? undefined : result}
               >
                 {isSubmitting ? "Submitting..." : "Save"}
               </Button>
             </Form>
           )}
         </Formik>
-        <article className={styles.label}>{result}</article>
       </div>
     </section>
   );
