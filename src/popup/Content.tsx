@@ -2,6 +2,7 @@ import { Field, Form, Formik } from "formik";
 import React, { useEffect, useState } from "react";
 import { Config, configSchema, getConfig } from "../services";
 import styles from "./Content.module.scss";
+import { FormField } from "./FormField";
 
 type FormValues = Config;
 
@@ -50,23 +51,26 @@ export const Content = () => {
         >
           {({ errors, isValid, dirty, isSubmitting }) => (
             <Form className={styles.form}>
-              <div className={styles.fieldWrapper}>
-                <label className={styles.label} htmlFor="pat">Personal Access Token</label>
-                <Field className={styles.field} id="pat" name="pat" type="text" required />
-              </div>
-              <div className={styles.fieldWrapper}>
-                <label className={styles.label} htmlFor="org">Organization</label>
-                <Field className={styles.field} id="org" name="org" type="text" required />
-              </div>
-              <div className={styles.fieldWrapper}>
-                <label className={styles.label} htmlFor="repo">Repository</label>
-                <Field className={styles.field} id="repo" name="repo" type="text" required />
-                {errors.repo && <p className={styles.error}>{errors.repo}</p>}
-              </div>
-              <div className={styles.fieldWrapper}>
-                <label className={styles.label} htmlFor="ghBaseUrl">GitHub Base URL</label>
-                <Field className={styles.field} id="ghBaseUrl" name="ghBaseUrl" type="text" required />
-              </div>
+              <FormField
+                label="Personal Access Token"
+                name="pat"
+                error={errors.pat}
+              />
+              <FormField
+                label="Organization"
+                name="org"
+                error={errors.org}
+              />
+              <FormField
+                label="Repository"
+                name="repo"
+                error={errors.repo}
+              />
+              <FormField
+                label="GitHub Base URL"
+                name="ghBaseUrl"
+                error={errors.ghBaseUrl}
+              />
               <button
                 type="submit"
                 disabled={!isValid || !dirty || isSubmitting}

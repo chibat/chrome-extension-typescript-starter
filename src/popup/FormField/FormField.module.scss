@@ -1,0 +1,47 @@
+$fontColor: rgba(255, 255, 255);
+
+.fieldWrapper {
+    padding: 0.5rem 0;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .label {
+    color: $fontColor;
+    font-size: 14px;
+    font-weight: 600;
+    margin-bottom: 6px;
+  }
+  
+  .error {
+    color: rgb(248, 81, 73);
+    font-size: 14px;
+  }
+  
+  .field {
+    font-size: 14px;
+    font-weight: 400;
+    margin: 0px 5px 0px 0px;
+    overflow: clip;
+    box-sizing: border-box;
+    outline: rgb(230, 237, 243) none 0px;
+    outline-offset: 0px;
+    background-color: rgb(13, 17, 23);
+    background-position: calc(100% - 8px) 50%;
+    background-repeat: no-repeat;
+    border-radius: 6px;
+    color: rgb(230, 237, 243);
+    padding: 5px 12px;
+    transition: color 0.08s cubic-bezier(0.33, 1, 0.68, 1), background-color,
+      box-shadow, border-color;
+    vertical-align: middle;
+    max-width: 100%;
+    width: 440px;
+    border: 0.8px solid rgb(48, 54, 61);
+    box-shadow: rgba(0, 0, 0, 0) 0px 0px 0px 0px;
+  
+    &:focus {
+      border: 0.8px solid rgb(47, 129, 247);
+      box-shadow: rgb(47, 129, 247) 0px 0px 0px 1px inset;
+    }
+  }
