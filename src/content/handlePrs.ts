@@ -6,9 +6,10 @@ export async function handlePrs(settings: Settings) {
     auth: settings.pat,
     baseUrl: settings.ghBaseUrl,
   });
+
   try {
     showSpinner();
-    const { data } = await octokit.pulls.list({
+    const { data: prs } = await octokit.pulls.list({
       owner: settings.org,
       repo: settings.repo,
       state: 'open',
@@ -16,18 +17,12 @@ export async function handlePrs(settings: Settings) {
       page: 1,
     });
 
-    const prs = data.map((pr) => ({
-      prNumber: pr.number,
-      headRef: pr.head.ref,
-      baseRef: pr.base.ref,
-    }));
-
     const prRows = document.querySelectorAll('div[id^=issue_]');
     prRows.forEach((prRow) => {
-      const prNumber = prRow.id.split('_')[1];
-      const prData = prs.find((pr) => pr.prNumber === parseInt(prNumber));
+      const [, prNumber] = prRow.id.split('_');
+      const prData = prs.find((pr) => pr.number === parseInt(prNumber));
       if (prData) {
-        const text = `${prData.baseRef} <-- ${prData.headRef}`;
+        const text = `${prData.base.ref} <-- ${prData.head.ref}`;
         const spanEl = document.createElement('span');
         spanEl.textContent = text;
         spanEl.classList.add('IssueLabel');
