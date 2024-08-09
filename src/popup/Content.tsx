@@ -1,8 +1,9 @@
-import { Field, Form, Formik } from "formik";
+import { Form, Formik } from "formik";
 import React, { useEffect, useState } from "react";
 import { Config, configSchema, getConfig } from "../services";
 import styles from "./Content.module.scss";
 import { FormField } from "./FormField";
+import { Button } from "./Button";
 
 type FormValues = Config;
 
@@ -71,13 +72,12 @@ export const Content = () => {
                 name="ghBaseUrl"
                 error={errors.ghBaseUrl}
               />
-              <button
+              <Button
                 type="submit"
                 disabled={!isValid || !dirty || isSubmitting}
-                className={styles.button}
               >
                 {isSubmitting ? "Submitting..." : "Save"}
-              </button>
+              </Button>
             </Form>
           )}
         </Formik>

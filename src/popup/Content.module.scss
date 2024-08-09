@@ -49,33 +49,3 @@ $fontColor: rgba(255, 255, 255);
   border-bottom: 0.8px solid rgb(33, 38, 45);
 }
 
-.button {
-  width: 100%;
-  margin: 1.5rem auto;
-  display: block;
-  text-align: center;
-  font-size: 14px;
-  font-weight: 500;
-  overflow: visible;
-  appearance: button;
-  box-sizing: border-box;
-  border-radius: 6px;
-  cursor: pointer;
-  box-shadow: rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px;
-  outline: rgb(255, 255, 255) none 0px;
-  outline-offset: 0px;
-  align-items: center;
-  background-color: rgb(35, 134, 54);
-  color: rgb(255, 255, 255);
-  flex-direction: row;
-  gap: 4px;
-  height: 32px;
-  justify-content: space-between;
-  min-width: max-content;
-  padding: 0px 12px;
-  position: relative;
-  transition-property: color, fill, background-color, border-color;
-  user-select: none;
-  transition-duration: 0.08s;
-  fill: rgb(255, 255, 255);
-}
