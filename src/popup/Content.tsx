@@ -38,10 +38,10 @@ export const Content = () => {
   return (
     <section className={styles.wrapper}>
       <div className={styles.container}>
-        <div>
-          <h1 className={styles.heading}>Settings</h1>
-          <button type="button">Close</button>
+        <div className={styles.headingContainer}>
+          <h1 className={styles.heading}>GitHub UI Booster - Settings</h1>
         </div>
+        <div className={styles.divider} />
         <Formik
           enableReinitialize
           initialValues={initialValues}
@@ -49,34 +49,35 @@ export const Content = () => {
           validationSchema={configSchema}
         >
           {({ errors, isValid, dirty, isSubmitting }) => (
-            <Form>
-              <div>
-                <label className={styles.text} htmlFor="pat">Personal Access Token</label>
-                <Field id="pat" name="pat" type="text" required />
+            <Form className={styles.form}>
+              <div className={styles.fieldWrapper}>
+                <label className={styles.label} htmlFor="pat">Personal Access Token</label>
+                <Field className={styles.field} id="pat" name="pat" type="text" required />
               </div>
-              <div>
-                <label className={styles.text} htmlFor="org">Organization</label>
-                <Field id="org" name="org" type="text" required />
+              <div className={styles.fieldWrapper}>
+                <label className={styles.label} htmlFor="org">Organization</label>
+                <Field className={styles.field} id="org" name="org" type="text" required />
               </div>
-              <div>
-                <label className={styles.text} htmlFor="repo">Repository</label>
-                <Field id="repo" name="repo" type="text" required />
+              <div className={styles.fieldWrapper}>
+                <label className={styles.label} htmlFor="repo">Repository</label>
+                <Field className={styles.field} id="repo" name="repo" type="text" required />
               </div>
-              <div>
-                <label className={styles.text} htmlFor="ghBaseUrl">GitHub Base URL</label>
-                <Field id="ghBaseUrl" name="ghBaseUrl" type="text" required />
+              <div className={styles.fieldWrapper}>
+                <label className={styles.label} htmlFor="ghBaseUrl">GitHub Base URL</label>
+                <Field className={styles.field} id="ghBaseUrl" name="ghBaseUrl" type="text" required />
               </div>
               <button
                 type="submit"
                 disabled={!isValid || !dirty || isSubmitting}
+                className={styles.button}
               >
                 {isSubmitting ? "Submitting..." : "Save"}
               </button>
-              <div className={styles.text}>{JSON.stringify(errors)}</div>
+              <div className={styles.label}>{JSON.stringify(errors)}</div>
             </Form>
           )}
         </Formik>
-        <article className={styles.text}>{result}</article>
+        <article className={styles.label}>{result}</article>
       </div>
     </section>
   );
