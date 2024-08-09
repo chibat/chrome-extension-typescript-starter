@@ -9,6 +9,13 @@ export const settingsSchema = object({
 
 export type Settings = InferType<typeof settingsSchema>;
 
+export const INITIAL_VALUES = {
+  pat: '',
+  org: '',
+  repo: '',
+  ghBaseUrl: 'https://api.github.com',
+};
+
 type Params = {
   onSuccess: (settings: Settings) => void;
   onError: () => void;
@@ -16,11 +23,12 @@ type Params = {
 
 export function getSettings({ onSuccess, onError }: Params) {
   chrome.storage.local
-    .get(['pat', 'org', 'repo', 'ghBaseUrl', 'labelStyling'])
-    .then((entries) =>
+    .get(Object.keys(settingsSchema.fields))
+    .then((entries) => {
+      if (Object.keys(entries).length === 0) onSuccess(INITIAL_VALUES);
       settingsSchema
         .validate(entries)
         .then((settings) => onSuccess(settings))
-        .catch(() => onError)
-    );
+        .catch(() => onError());
+    });
 }

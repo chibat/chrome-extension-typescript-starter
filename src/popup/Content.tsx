@@ -1,18 +1,16 @@
 import { Form, Formik, FormikHelpers } from 'formik';
 import React, { useEffect, useState } from 'react';
-import { Settings, getSettings, settingsSchema } from '../services';
+import {
+  INITIAL_VALUES,
+  Settings,
+  getSettings,
+  settingsSchema,
+} from '../services';
 import { Button } from './Button';
 import styles from './Content.module.scss';
 import { FormField } from './FormField';
 
 type FormValues = Settings;
-
-const INITIAL_VALUES = {
-  pat: '',
-  org: '',
-  repo: '',
-  ghBaseUrl: 'https://api.github.com',
-};
 
 export const Content = () => {
   const [result, resultSet] = useState('');
