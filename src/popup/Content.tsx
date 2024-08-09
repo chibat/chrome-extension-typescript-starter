@@ -61,6 +61,7 @@ export const Content = () => {
               <div className={styles.fieldWrapper}>
                 <label className={styles.label} htmlFor="repo">Repository</label>
                 <Field className={styles.field} id="repo" name="repo" type="text" required />
+                {errors.repo && <p className={styles.error}>{errors.repo}</p>}
               </div>
               <div className={styles.fieldWrapper}>
                 <label className={styles.label} htmlFor="ghBaseUrl">GitHub Base URL</label>
@@ -73,7 +74,6 @@ export const Content = () => {
               >
                 {isSubmitting ? "Submitting..." : "Save"}
               </button>
-              <div className={styles.label}>{JSON.stringify(errors)}</div>
             </Form>
           )}
         </Formik>
