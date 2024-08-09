@@ -10,7 +10,7 @@ const INITIAL_VALUES = {
   pat: "",
   org: "",
   repo: "",
-  ghBaseUrl: "",
+  ghBaseUrl: "https://api.github.com",
 };
 
 export const Content = () => {
