@@ -34,6 +34,11 @@
       background-color: rgb(46, 160, 67);
     }
 
+    &:focus:not([disabled]) {
+      border: 0.8px solid rgb(153, 188, 237);
+      box-shadow: rgb(153, 188, 237) 0px 0px 0px 1px inset;
+    }
+
     &[disabled] {
       background-color: rgb(33, 38, 45);
       border-color: rgba(240, 246, 252, 0.1);
