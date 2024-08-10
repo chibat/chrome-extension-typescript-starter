@@ -43,7 +43,9 @@ function createSpinner(parentSelector: string, ...additionalClasses: string[]) {
   const parentEl = document.querySelector(parentSelector);
   const loadingSpinner = document.createElement('div');
   loadingSpinner.classList.add('ghuibooster__spinner');
-  additionalClasses.forEach((c) => loadingSpinner.classList.add(c));
+  additionalClasses.forEach((c) => {
+    loadingSpinner.classList.add(c);
+  });
   parentEl?.appendChild(loadingSpinner);
   return loadingSpinner;
 }
