@@ -1,4 +1,4 @@
-import { Octokit } from '@octokit/rest';
+import { Octokit, RestEndpointMethodTypes } from '@octokit/rest';
 import { Settings } from '../services';
 
 export async function handlePrs(settings: Settings) {
@@ -21,14 +21,7 @@ export async function handlePrs(settings: Settings) {
     prRows.forEach((prRow) => {
       const [, prNumber] = prRow.id.split('_');
       const prData = prs.find((pr) => pr.number === parseInt(prNumber));
-      if (prData) {
-        const text = `${prData.base.ref} <-- ${prData.head.ref}`;
-        const spanEl = document.createElement('span');
-        spanEl.textContent = text;
-        spanEl.classList.add('IssueLabel');
-        spanEl.classList.add('hx_IssueLabel');
-        prRow.children[0].children[2].appendChild(spanEl);
-      }
+      addLabel(prData, prRow);
     });
   } catch (err) {
     alert('Error fetching PR data. Check console');
@@ -38,7 +31,23 @@ export async function handlePrs(settings: Settings) {
   }
 }
 
+function addLabel(
+  prData:
+    | RestEndpointMethodTypes['pulls']['list']['response']['data'][number]
+    | undefined,
+  prRow: Element
+) {
+  if (!prData) return;
+  const text = `${prData.base.ref} <-- ${prData.head.ref}`;
+  const spanEl = document.createElement('span');
+  spanEl.textContent = text;
+  spanEl.classList.add('IssueLabel');
+  spanEl.classList.add('hx_IssueLabel');
+  prRow.children[0].children[2].appendChild(spanEl);
+}
+
 function showSpinner() {
+  // document.querySelector("#js-issues-toolbar > div.table-list-filters.flex-auto.d-flex.min-width-0 > div.flex-auto.d-none.d-lg-block.no-wrap > div")
   let loadingOverlay = document.querySelector('.ghuibooster__overlay');
   if (loadingOverlay) {
     loadingOverlay.classList.remove('ghuibooster__hidden');
