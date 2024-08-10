@@ -1,6 +1,7 @@
 import { Octokit } from '@octokit/rest';
 import { Settings } from '../services';
 import { getPrFromLocation } from './getPrFromLocation';
+import { Spinner } from './spinner';
 
 const BLACKLIST = ['package-lock.json'];
 
@@ -21,6 +22,10 @@ export async function handlePr(settings: Settings) {
   let hasNextPage = true;
 
   try {
+    Spinner.showSpinner(
+      '#repo-content-pjax-container > div > div.clearfix.js-issues-results > div.px-3.px-md-0.ml-n3.mr-n3.mx-md-0.tabnav > nav',
+      'ghuibooster__spinner__large'
+    );
     while (hasNextPage) {
       const { data: files } = await octokit.pulls.listFiles({
         owner: settings.org,
@@ -46,6 +51,8 @@ export async function handlePr(settings: Settings) {
     updateUi(totalLinesAdded, totalLinesRemoved);
   } catch (error) {
     console.error('Error fetching pull request files:', error);
+  } finally {
+    Spinner.hideSpinner();
   }
 }
 
