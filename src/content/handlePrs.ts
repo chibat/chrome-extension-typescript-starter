@@ -47,61 +47,52 @@ function addLabel(
 }
 
 function showSpinner() {
-  // document.querySelector("#js-issues-toolbar > div.table-list-filters.flex-auto.d-flex.min-width-0 > div.flex-auto.d-none.d-lg-block.no-wrap > div")
-  let loadingOverlay = document.querySelector('.ghuibooster__overlay');
-  if (loadingOverlay) {
-    loadingOverlay.classList.remove('ghuibooster__hidden');
+  let loadingSpinner = document.querySelector('.ghuibooster__spinner');
+  if (loadingSpinner) {
+    loadingSpinner.classList.remove('ghuibooster__hidden');
     return;
   }
+  injectCSS();
+  createSpinner(loadingSpinner);
+}
 
+function injectCSS() {
   const style = document.createElement('style');
   style.type = 'text/css';
   style.innerHTML = `
-    .ghuibooster__overlay {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background-color: rgba(0, 0, 0, 0.5);
-      z-index: 9999;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-    }
-      
-    .ghuibooster__overlay.ghuibooster__hidden {
+    .ghuibooster__spinner.ghuibooster__hidden {
         display: none;
     }
-
     .ghuibooster__spinner {
-      border: 12px solid #f3f3f3;
-      border-top: 12px solid #0d1318;
+      border: 2px solid #f3f3f3;
+      border-top: 2px solid #0d1318;
       border-radius: 50%;
-      width: 80px;
-      height: 80px;
-      animation: ghuibooster__spin 2s linear infinite;
+      width: 16px;
+      height: 16px;
+      animation: ghuibooster__spin .7s linear infinite;
+      display: inline-block;
+      vertical-align: text-bottom;
+      margin-left: 1rem;
     }
-
     @keyframes ghuibooster__spin {
       0% { transform: rotate(0deg); }
       100% { transform: rotate(360deg); }
     }
   `;
   document.getElementsByTagName('head')[0].appendChild(style);
+}
 
-  loadingOverlay = document.createElement('div');
-  loadingOverlay.classList.add('ghuibooster__overlay');
-
-  const loadingSpinner = document.createElement('div');
+function createSpinner(loadingSpinner: Element | null) {
+  const parentEl = document.querySelector(
+    '#js-issues-toolbar > div.table-list-filters.flex-auto.d-flex.min-width-0 > div.flex-auto.d-none.d-lg-block.no-wrap > div'
+  );
+  loadingSpinner = document.createElement('div');
   loadingSpinner.classList.add('ghuibooster__spinner');
-
-  loadingOverlay.appendChild(loadingSpinner);
-  const body = document.querySelector('body');
-  body?.appendChild(loadingOverlay);
+  parentEl?.appendChild(loadingSpinner);
+  return loadingSpinner;
 }
 
 function hideSpinner() {
-  const loadingOverlay = document.querySelector('.ghuibooster__overlay');
+  const loadingOverlay = document.querySelector('.ghuibooster__spinner');
   loadingOverlay?.classList.add('ghuibooster__hidden');
 }
