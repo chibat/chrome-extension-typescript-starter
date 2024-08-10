@@ -43,38 +43,41 @@ export async function handlePr(settings: Settings) {
       }
     }
 
-    const linesAddedEl = document.querySelector<HTMLElement>(
-      '#diffstat > span.color-fg-success'
-    );
-    const addedClone = linesAddedEl?.cloneNode(true);
-    if (!addedClone) return;
-    addedClone.textContent = `+ ${totalLinesAdded}`;
-    linesAddedEl?.parentNode?.insertBefore(addedClone, linesAddedEl);
-
-    const linesRemovedEl = document.querySelector<HTMLElement>(
-      '#diffstat > span.color-fg-danger'
-    );
-    const removedClone = linesRemovedEl?.cloneNode(true);
-    if (!removedClone) return;
-    removedClone.textContent = `- ${totalLinesRemoved}`;
-    linesRemovedEl?.parentNode?.insertBefore(removedClone, linesRemovedEl);
-
-    linesAddedEl && (linesAddedEl.style['fontSize'] = '8px');
-    linesAddedEl && (linesAddedEl.style['verticalAlign'] = 'sub');
-    linesRemovedEl && (linesRemovedEl.style['fontSize'] = '8px');
-    linesRemovedEl && (linesRemovedEl.style['verticalAlign'] = 'sub');
+    updateUi(totalLinesAdded, totalLinesRemoved);
   } catch (error) {
     console.error('Error fetching pull request files:', error);
   }
 }
 
-// const repo = getCurrentRepo();
-// const owner = getCurrentOwner();
-// if (!repo || !owner) return;
+function updateUi(totalLinesAdded: number, totalLinesRemoved: number) {
+  // remove diffstat-block
+  document
+    .querySelector('#diffstat > span > span[class^=diffstat-block]')
+    ?.parentElement?.remove();
 
-// const pr = getCurrentPr();
-// if (pr) return replaceCount({ type: "pr", repo, owner, pr }, PrDiff);
+  const linesAddedEl = document.querySelector<HTMLElement>(
+    '#diffstat > span.color-fg-success'
+  );
+  const addedClone = linesAddedEl?.cloneNode(true);
+  if (!addedClone) return;
+  addedClone.textContent = `+ ${totalLinesAdded}`;
+  linesAddedEl?.parentNode?.insertBefore(addedClone, linesAddedEl);
 
-// https://github.com/aklinker1/github-better-line-counts/blob/main/src/utils/github/api.ts
+  const linesRemovedEl = document.querySelector<HTMLElement>(
+    '#diffstat > span.color-fg-danger'
+  );
+  const removedClone = linesRemovedEl?.cloneNode(true);
+  if (!removedClone) return;
+  removedClone.textContent = `- ${totalLinesRemoved}`;
+  linesRemovedEl?.parentNode?.insertBefore(removedClone, linesRemovedEl);
 
-// https://github.com/aklinker1/github-better-line-counts/blob/main/src/utils/github/service.ts
+  reduceFont(linesAddedEl, linesRemovedEl);
+}
+
+function reduceFont(...els: Array<HTMLElement | null>) {
+  els.forEach((el) => {
+    if (!el) return;
+    el.style['fontSize'] = '8px';
+    el.style['verticalAlign'] = 'sub';
+  });
+}
