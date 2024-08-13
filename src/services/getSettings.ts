@@ -1,20 +1,29 @@
-import { InferType, object, string } from 'yup';
+import { InferType, object, string } from "yup";
+
+const autoFilterSchema = object({
+  filter: string().optional(),
+  repo: string().optional(),
+});
+
+export type AutoFilter = InferType<typeof autoFilterSchema>;
 
 export const settingsSchema = object({
-  pat: string().required().matches(/^ghp_/, 'Should start with ghp_').min(30),
+  pat: string().required().matches(/^ghp_/, "Should start with ghp_").min(30),
   org: string().required(),
   repo: string().required(),
   ghBaseUrl: string().required().url(),
+  autoFilter: autoFilterSchema,
 });
 
 export type Settings = InferType<typeof settingsSchema>;
 export type SettingName = keyof Settings;
 
 export const INITIAL_VALUES = {
-  pat: '',
-  org: '',
-  repo: '',
-  ghBaseUrl: 'https://api.github.com',
+  pat: "",
+  org: "",
+  repo: "",
+  ghBaseUrl: "https://api.github.com",
+  autoFilter: { filter: "", repo: "" },
 };
 
 type Params = {
@@ -32,7 +41,10 @@ export function getSettings({ onSuccess, onError }: Params) {
         settingsSchema
           .validate(entries)
           .then((settings) => onSuccess(settings))
-          .catch(() => onError());
+          .catch((e) => {
+            console.error(e);
+            onError();
+          });
       }
     });
 }

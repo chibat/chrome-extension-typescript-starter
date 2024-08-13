@@ -1,19 +1,23 @@
-import { Form, Formik, FormikHelpers } from 'formik';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState } from "react";
+import styles from "./Content.module.scss";
+import { SettingsTab } from "./Tabs";
+import { Tab, TabNavigation } from "../components";
+import { AutoFilterTab } from "./Tabs/AutoFilterTab";
+import { Form, Formik, FormikErrors, FormikHelpers } from "formik";
 import {
   INITIAL_VALUES,
   Settings,
   getSettings,
   settingsSchema,
-} from '../services';
-import { Button } from './Button';
-import styles from './Content.module.scss';
-import { FormField } from './FormField';
+} from "../services";
+import { Button } from "./Button";
 
+const tabs: Array<Tab> = ["Auto filter", "Settings"];
 type FormValues = Settings;
 
 export const Content = () => {
-  const [result, resultSet] = useState('');
+  const [activeTab, setActiveTab] = useState<Tab>("Auto filter");
+  const [result, resultSet] = useState("");
   const [initialValues, initialValuesSet] =
     useState<FormValues>(INITIAL_VALUES);
 
@@ -37,10 +41,19 @@ export const Content = () => {
       .then(() => {
         // reset form-state, e.g. isDirty
         resetForm({ values });
-        resultSet('Saved successfully');
+        resultSet("Saved successfully");
       })
       .catch(() => resultSet("Couldn't save"))
       .finally(() => setSubmitting(false));
+  };
+
+  const mapTabToComponent = (tab: Tab, errors: FormikErrors<FormValues>) => {
+    switch (tab) {
+      case "Auto filter":
+        return <AutoFilterTab errors={errors} />;
+      case "Settings":
+        return <SettingsTab errors={errors} />;
+    }
   };
 
   return (
@@ -50,35 +63,31 @@ export const Content = () => {
           <h1 className={styles.heading}>GitHub UI Booster - Settings</h1>
         </div>
         <div className={styles.divider} />
+        <TabNavigation
+          tabs={tabs}
+          activeTab={activeTab}
+          onTabClick={setActiveTab}
+        />
         <Formik
           enableReinitialize
           initialValues={initialValues}
           onSubmit={handleSubmit}
-          validationSchema={settingsSchema}
+          //validationSchema={settingsSchema}
         >
-          {({ errors, isValid, dirty, isSubmitting }) => (
-            <Form className={styles.form}>
-              <FormField
-                label='Personal Access Token'
-                name='pat'
-                error={errors.pat}
-              />
-              <FormField label='Organization' name='org' error={errors.org} />
-              <FormField label='Repository' name='repo' error={errors.repo} />
-              <FormField
-                label='GitHub Base URL'
-                name='ghBaseUrl'
-                error={errors.ghBaseUrl}
-              />
-              <Button
-                type='submit'
-                disabled={!isValid || !dirty || isSubmitting}
-                result={isSubmitting ? undefined : result}
-              >
-                {isSubmitting ? 'Submitting...' : 'Save'}
-              </Button>
-            </Form>
-          )}
+          {({ errors, isValid, dirty, isSubmitting }) => {
+            return (
+              <Form className={styles.form}>
+                {mapTabToComponent(activeTab, errors)}
+                <Button
+                  type="submit"
+                  disabled={!isValid || !dirty || isSubmitting}
+                  result={isSubmitting ? undefined : result}
+                >
+                  {isSubmitting ? "Submitting..." : "Save"}
+                </Button>
+              </Form>
+            );
+          }}
         </Formik>
       </div>
     </section>
