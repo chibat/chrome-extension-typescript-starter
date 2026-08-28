@@ -58,6 +58,14 @@ async function renderOpenSearch() {
   return user;
 }
 
+function addPrRows() {
+  prs.forEach(({ number }) => {
+    const row = document.createElement("div");
+    row.id = `issue_${number}`;
+    document.body.appendChild(row);
+  });
+}
+
 describe("PrFilesSearch label filter", () => {
   test("renders deduplicated labels in alphabetical order", async () => {
     await renderOpenSearch();
@@ -136,5 +144,65 @@ describe("PrFilesSearch label filter", () => {
     expect(
       screen.queryByText("2: Update documentation"),
     ).not.toBeInTheDocument();
+  });
+});
+
+describe("PrFilesSearch PR row highlights", () => {
+  beforeEach(addPrRows);
+
+  afterEach(() => {
+    document.querySelectorAll("[id^=issue_]").forEach((row) => row.remove());
+  });
+
+  test("highlights matching rows until the selected file is cleared", async () => {
+    const user = await renderOpenSearch();
+    const firstRow = document.getElementById("issue_1");
+    const secondRow = document.getElementById("issue_2");
+    const thirdRow = document.getElementById("issue_3");
+
+    await user.click(screen.getAllByText("src/shared.ts")[0]);
+
+    expect(firstRow).toHaveClass("highlightedPrRow");
+    expect(firstRow).toHaveAttribute(
+      "title",
+      "Contains selected file: src/shared.ts",
+    );
+    expect(secondRow).toHaveClass("highlightedPrRow");
+    expect(thirdRow).not.toHaveClass("highlightedPrRow");
+
+    const popupButtons = within(
+      screen.getByTestId("PrFilesSearchResultsPopup"),
+    ).getAllByRole("button");
+    await user.click(popupButtons[0]);
+
+    expect(firstRow).toHaveClass("highlightedPrRow");
+
+    await user.click(screen.getByPlaceholderText("Search for file in PRs"));
+    await user.click(screen.getAllByText("src/shared.ts")[0]);
+
+    expect(firstRow).not.toHaveClass("highlightedPrRow");
+    expect(firstRow).not.toHaveAttribute("title");
+    expect(secondRow).not.toHaveClass("highlightedPrRow");
+  });
+
+  test("restores the row state when the component unmounts", async () => {
+    const firstRow = document.getElementById("issue_1");
+    firstRow?.classList.add("existing-class");
+    firstRow?.setAttribute("title", "Existing title");
+
+    const user = userEvent.setup();
+    const { unmount } = render(
+      <PrFilesSearch prs={prs} prFilesMap={prFilesMap} />,
+    );
+    await user.click(screen.getByPlaceholderText("Search for file in PRs"));
+    await user.click(screen.getByText("src/auth.ts"));
+
+    expect(firstRow).toHaveClass("existing-class", "highlightedPrRow");
+
+    unmount();
+
+    expect(firstRow).toHaveClass("existing-class");
+    expect(firstRow).not.toHaveClass("highlightedPrRow");
+    expect(firstRow).toHaveAttribute("title", "Existing title");
   });
 });

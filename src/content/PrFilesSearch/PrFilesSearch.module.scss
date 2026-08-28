@@ -1,5 +1,21 @@
 @import "../../shared-component-styles.scss";
 
+.highlightedPrRow {
+  --pr-files-search-highlight: var(
+    --fgColor-attention,
+    var(--color-attention-fg, #d29922)
+  );
+
+  background-color: rgba(210, 153, 34, 0.16);
+  background-color: color-mix(
+    in srgb,
+    var(--pr-files-search-highlight) 16%,
+    var(--bgColor-default, var(--color-canvas-default, #ffffff))
+  );
+  outline: 2px solid var(--pr-files-search-highlight);
+  outline-offset: -2px;
+}
+
 .searchPopupContainer {
   @extend .popupContainer;
   transform: translateX(-20%);

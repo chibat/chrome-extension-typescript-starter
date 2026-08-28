@@ -7,8 +7,10 @@ import { ClosePopupButton, SearchInput } from "../../components";
 import { Files } from "../types";
 
 import styles from "./PrFilesSearch.module.scss";
+import { useHighlightPrRows } from "./useHighlightPrRows";
 
 type PrWithFiles = {
+  number: number;
   title: string;
   url: string;
   files: Files;
@@ -66,6 +68,7 @@ export const PrFilesSearch: React.FC<Props> = ({ prs, prFilesMap }) => {
       const prData = prs.find((pr) => pr.number === prNumber);
       if (!prData || !prHasSelectedLabel(prData)) return;
       files.push({
+        number: prData.number,
         title: `${prData.number}: ${prData.title}`,
         url: `${prData.html_url}/files`,
         files: filesData,
@@ -101,6 +104,7 @@ export const PrFilesSearch: React.FC<Props> = ({ prs, prFilesMap }) => {
 
         if (matchingFiles.length > 0) {
           matchingMap.push({
+            number: prData.number,
             title: `${prData.number}: ${prData.title}`,
             url: `${prData.html_url}/files`,
             files: matchingFiles,
@@ -128,6 +132,8 @@ export const PrFilesSearch: React.FC<Props> = ({ prs, prFilesMap }) => {
     () => (filter.size ? getMatchingPrs(Array.from(filter), "OR") : undefined),
     [filter, getMatchingPrs],
   );
+
+  useHighlightPrRows(prsWithSelectedFiles);
 
   return (
     <>
