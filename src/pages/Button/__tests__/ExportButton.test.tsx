@@ -136,7 +136,7 @@ describe("ExportButton", () => {
 
     await waitFor(() => {
       expect(showSaveFilePickerMock).toHaveBeenCalledWith({
-        suggestedName: "github-ui-booster-settings.json",
+        suggestedName: "git-ui-booster-settings.json",
         types: [
           {
             description: "JSON file",

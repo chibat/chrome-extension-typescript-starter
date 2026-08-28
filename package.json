@@ -1,7 +1,7 @@
 {
-  "name": "github-ui-booster",
+  "name": "git-ui-booster",
   "version": "1.0.0",
-  "description": "Boost your GitHub UI. Works with GitHub Enterprise!",
+  "description": "Boost your Git workflow. Works with GitHub and GitHub Enterprise!",
   "main": "index.js",
   "scripts": {
     "watch": "webpack --config webpack/webpack.dev.js --watch",
@@ -40,7 +40,7 @@
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/HansKre/github-ui-booster"
+    "url": "https://github.com/HansKre/git-ui-booster"
   },
   "dependencies": {
     "@octokit/rest": "^21.0.1",

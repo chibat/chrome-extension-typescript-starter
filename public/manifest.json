@@ -1,9 +1,9 @@
 {
   "manifest_version": 3,
 
-  "name": "GitHub UI Booster",
-  "description": "Boost your GitHub UI. Works with GitHub Enterprise!",
-  "version": "1.7",
+  "name": "Git UI Booster",
+  "description": "Boost your Git workflow. Works with GitHub and GitHub Enterprise!",
+  "version": "1.8",
 
   "action": {
     "default_icon": "icon16.png",

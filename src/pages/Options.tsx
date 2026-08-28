@@ -165,15 +165,15 @@ export const Options = () => {
             <Box className={styles.header}>
               <img
                 src="/icon128.png"
-                alt="GitHub UI Booster Logo"
+                alt="Git UI Booster Logo"
                 className={styles.logo}
               />
               <Box>
                 <Text as="h1" className={styles.title}>
-                  GitHub UI Booster Options
+                  Git UI Booster Options
                 </Text>
                 <Subtitle>
-                  Making your GitHub experience smoother than a freshly polished
+                  Making your Git workflow smoother than a freshly polished
                   commit 🚀
                 </Subtitle>
               </Box>

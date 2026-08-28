@@ -22,7 +22,7 @@ export const ExportButton: React.FC<Props> = ({
         if ("showSaveFilePicker" in window && window.showSaveFilePicker) {
           try {
             const handle = await window.showSaveFilePicker({
-              suggestedName: "github-ui-booster-settings.json",
+              suggestedName: "git-ui-booster-settings.json",
               types: [
                 {
                   description: "JSON file",
