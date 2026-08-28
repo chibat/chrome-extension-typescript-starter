@@ -53,6 +53,52 @@
   align-items: flex-start;
 }
 
+.labelFilter {
+  margin-bottom: 1rem;
+}
+
+.labelBadgeList {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin: 0;
+  padding: 0;
+}
+
+.labelBadgeList > li {
+  list-style: none;
+}
+
+.labelBadge {
+  padding: 0.2rem 0.5rem;
+  border: 1px solid transparent;
+  border-radius: 2rem;
+  cursor: pointer;
+  font-weight: 600;
+  opacity: 0.65;
+  transition:
+    opacity 0.15s ease,
+    transform 0.15s ease,
+    box-shadow 0.15s ease;
+
+  &:hover {
+    opacity: 1;
+  }
+}
+
+.labelBadge__selected {
+  opacity: 1;
+  transform: translateY(-1px);
+  box-shadow:
+    0 0 0 2px var(--overlay-bgColor, var(--color-canvas-overlay, #161b22)),
+    0 0 0 4px var(--fgColor-accent, var(--color-accent-fg, #2f81f7));
+}
+
+.noMatchesHint {
+  padding: 1rem 0;
+  color: var(--fgColor-muted, var(--color-fg-muted, #848d97));
+}
+
 .title {
   margin: 1rem 0;
 }

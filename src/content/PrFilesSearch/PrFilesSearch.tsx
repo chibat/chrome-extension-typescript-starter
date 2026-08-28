@@ -1,12 +1,6 @@
 import { RestEndpointMethodTypes } from "@octokit/rest";
 import { Text } from "@primer/react";
-import React, {
-  useCallback,
-  useEffect,
-  useMemo,
-  useState,
-  useTransition,
-} from "react";
+import React, { useCallback, useDeferredValue, useMemo, useState } from "react";
 import { cns } from "ts-type-safe";
 import { ClosePopupButton, SearchInput } from "../../components";
 
@@ -20,17 +14,57 @@ type PrWithFiles = {
   files: Files;
 };
 
+type PrLabel = {
+  name: string;
+  color: string;
+};
+
 export type Props = {
   prs: RestEndpointMethodTypes["pulls"]["list"]["response"]["data"];
   prFilesMap: Map<number, Files>;
 };
 
 export const PrFilesSearch: React.FC<Props> = ({ prs, prFilesMap }) => {
+  const [filter, filterSet] = useState<Set<string>>(new Set());
+  const [isOpen, isOpenSet] = useState(false);
+  const [searchValue, searchValueSet] = useState("");
+  const [selectedLabel, selectedLabelSet] = useState<string>();
+  const deferredSearchValue = useDeferredValue(searchValue);
+
+  const availableLabels = useMemo(() => {
+    const labels = new Map<string, PrLabel>();
+
+    prs.forEach((pr) => {
+      if (!prFilesMap.has(pr.number)) return;
+
+      pr.labels.forEach((label) => {
+        if (!label.name) return;
+        labels.set(label.name.toLowerCase(), {
+          name: label.name,
+          color: label.color,
+        });
+      });
+    });
+
+    return Array.from(labels.values()).sort((labelA, labelB) =>
+      labelA.name.localeCompare(labelB.name),
+    );
+  }, [prFilesMap, prs]);
+
+  const prHasSelectedLabel = useCallback(
+    (pr: Props["prs"][number]) =>
+      !selectedLabel ||
+      pr.labels.some(
+        (label) => label.name.toLowerCase() === selectedLabel.toLowerCase(),
+      ),
+    [selectedLabel],
+  );
+
   const allFiles = useMemo(() => {
     const files: PrWithFiles[] = [];
     prFilesMap.forEach((filesData, prNumber) => {
       const prData = prs.find((pr) => pr.number === prNumber);
-      if (!prData) return;
+      if (!prData || !prHasSelectedLabel(prData)) return;
       files.push({
         title: `${prData.number}: ${prData.title}`,
         url: `${prData.html_url}/files`,
@@ -38,10 +72,7 @@ export const PrFilesSearch: React.FC<Props> = ({ prs, prFilesMap }) => {
       });
     });
     return files;
-  }, [prFilesMap, prs]);
-
-  const [filter, filterSet] = useState<Set<string>>(new Set());
-  const [resultsList, resultsListSet] = useState<PrWithFiles[]>();
+  }, [prFilesMap, prHasSelectedLabel, prs]);
 
   const getMatchingPrs = useCallback(
     // OR: returns PRs that match any of the terms
@@ -50,6 +81,9 @@ export const PrFilesSearch: React.FC<Props> = ({ prs, prFilesMap }) => {
       const matchingMap: PrWithFiles[] = [];
 
       prFilesMap.forEach((files, prNumber) => {
+        const prData = prs.find((pr) => pr.number === prNumber);
+        if (!prData || !prHasSelectedLabel(prData)) return;
+
         const matchingFiles =
           filter === "AND"
             ? terms.reduce((currentFiles, term) => {
@@ -66,8 +100,6 @@ export const PrFilesSearch: React.FC<Props> = ({ prs, prFilesMap }) => {
               }, [] as Files);
 
         if (matchingFiles.length > 0) {
-          const prData = prs.find((pr) => pr.number === prNumber);
-          if (!prData) return;
           matchingMap.push({
             title: `${prData.number}: ${prData.title}`,
             url: `${prData.html_url}/files`,
@@ -77,54 +109,46 @@ export const PrFilesSearch: React.FC<Props> = ({ prs, prFilesMap }) => {
       });
       return matchingMap;
     },
-    [prFilesMap, prs],
+    [prFilesMap, prHasSelectedLabel, prs],
   );
 
-  const [, startTransition] = useTransition();
-  const filterPrsAndSetResultsListTransition = useCallback(
-    (value: string) =>
-      startTransition(() => {
-        const terms = value.trim().toLowerCase().split(" ").filter(Boolean);
-        if (terms.length === 0) {
-          resultsListSet(allFiles);
-          return;
-        }
+  const resultsList = useMemo(() => {
+    if (!isOpen) return undefined;
 
-        resultsListSet(getMatchingPrs(terms, "AND"));
-      }),
-    [getMatchingPrs, allFiles],
+    const terms = deferredSearchValue
+      .trim()
+      .toLowerCase()
+      .split(" ")
+      .filter(Boolean);
+
+    return terms.length === 0 ? allFiles : getMatchingPrs(terms, "AND");
+  }, [allFiles, deferredSearchValue, getMatchingPrs, isOpen]);
+
+  const prsWithSelectedFiles = useMemo(
+    () => (filter.size ? getMatchingPrs(Array.from(filter), "OR") : undefined),
+    [filter, getMatchingPrs],
   );
-
-  const [prsWithSelectedFiles, prsWithSelectedFilesSet] =
-    useState<PrWithFiles[]>();
-
-  useEffect(() => {
-    if (!filter.size) {
-      prsWithSelectedFilesSet(undefined);
-    } else {
-      prsWithSelectedFilesSet(getMatchingPrs(Array.from(filter), "OR"));
-    }
-  }, [filter, getMatchingPrs]);
 
   return (
     <>
       <SearchInput
         label="Search for file in PRs"
         name="search"
-        onChange={filterPrsAndSetResultsListTransition}
+        onChange={searchValueSet}
         onFocus={(value) => {
-          if (value) {
-            filterPrsAndSetResultsListTransition(value);
-          } else if (!resultsList) {
-            resultsListSet(allFiles);
-          }
+          searchValueSet(value);
+          isOpenSet(true);
         }}
       />
       <ResultsPopup
+        availableLabels={availableLabels}
         filter={filter}
         filterSet={filterSet}
+        isOpen={isOpen}
+        isOpenSet={isOpenSet}
+        selectedLabel={selectedLabel}
+        selectedLabelSet={selectedLabelSet}
         resultsList={resultsList}
-        resultsListSet={resultsListSet}
         prsWithSelectedFiles={prsWithSelectedFiles}
       />
     </>
@@ -132,37 +156,106 @@ export const PrFilesSearch: React.FC<Props> = ({ prs, prFilesMap }) => {
 };
 
 const ResultsPopup: React.FC<{
+  availableLabels: PrLabel[];
   filter: Set<string>;
   filterSet: React.Dispatch<React.SetStateAction<Set<string>>>;
+  isOpen: boolean;
+  isOpenSet: React.Dispatch<React.SetStateAction<boolean>>;
+  selectedLabel: string | undefined;
+  selectedLabelSet: React.Dispatch<React.SetStateAction<string | undefined>>;
   resultsList: PrWithFiles[] | undefined;
-  resultsListSet: React.Dispatch<
-    React.SetStateAction<PrWithFiles[] | undefined>
-  >;
   prsWithSelectedFiles: PrWithFiles[] | undefined;
 }> = ({
+  availableLabels,
   filter,
   filterSet,
+  isOpen,
+  isOpenSet,
+  selectedLabel,
+  selectedLabelSet,
   resultsList,
-  resultsListSet,
   prsWithSelectedFiles,
 }) => (
   <div
     className={cns(
       styles.searchPopupContainer,
-      !!resultsList?.length && styles.popupContainer__hovered,
+      isOpen && styles.popupContainer__hovered,
     )}
+    data-testid="PrFilesSearchResultsPopup"
   >
     <Text as="h4" className={styles.title}>
       Conflicts Planer
     </Text>
-    <ClosePopupButton onClick={() => resultsListSet(undefined)} />
+    <ClosePopupButton onClick={() => isOpenSet(false)} />
+    <LabelFilterBadges
+      availableLabels={availableLabels}
+      selectedLabel={selectedLabel}
+      selectedLabelSet={selectedLabelSet}
+    />
     <div className={cns(!!filter.size && styles.card)}>
       <SelectedFilesBadges filter={filter} filterSet={filterSet} />
       <PrsWithSelectedFilesList prsWithSelectedFiles={prsWithSelectedFiles} />
     </div>
-    <ResultsList resultsList={resultsList} filterSet={filterSet} />
+    {selectedLabel && resultsList?.length === 0 ? (
+      <Text className={styles.noMatchesHint}>
+        No PRs match the current filters.
+      </Text>
+    ) : (
+      <ResultsList resultsList={resultsList} filterSet={filterSet} />
+    )}
   </div>
 );
+
+const LabelFilterBadges: React.FC<{
+  availableLabels: PrLabel[];
+  selectedLabel: string | undefined;
+  selectedLabelSet: React.Dispatch<React.SetStateAction<string | undefined>>;
+}> = ({ availableLabels, selectedLabel, selectedLabelSet }) =>
+  availableLabels.length ? (
+    <div className={styles.labelFilter} data-testid="LabelFilterBadges">
+      <Text as="h5" className={styles.title}>
+        Filter by Label
+      </Text>
+      <ul className={styles.labelBadgeList}>
+        {availableLabels.map((label) => {
+          const isSelected = selectedLabel === label.name;
+          return (
+            <li key={label.name}>
+              <button
+                type="button"
+                aria-pressed={isSelected}
+                className={cns(
+                  styles.labelBadge,
+                  isSelected && styles.labelBadge__selected,
+                )}
+                data-testid={`LabelFilterBadge-${label.name}`}
+                style={{
+                  backgroundColor: `#${label.color}`,
+                  color: getLabelTextColor(label.color),
+                }}
+                onClick={() =>
+                  selectedLabelSet(isSelected ? undefined : label.name)
+                }
+              >
+                {label.name}
+              </button>
+            </li>
+          );
+        })}
+      </ul>
+    </div>
+  ) : null;
+
+function getLabelTextColor(color: string) {
+  const normalizedColor = color.replace("#", "");
+  if (!/^[0-9a-f]{6}$/i.test(normalizedColor)) return "#ffffff";
+
+  const red = parseInt(normalizedColor.slice(0, 2), 16);
+  const green = parseInt(normalizedColor.slice(2, 4), 16);
+  const blue = parseInt(normalizedColor.slice(4, 6), 16);
+  const luminance = (red * 299 + green * 587 + blue * 114) / 1000;
+  return luminance > 128 ? "#000000" : "#ffffff";
+}
 
 const ResultsList: React.FC<{
   resultsList: PrWithFiles[] | undefined;
